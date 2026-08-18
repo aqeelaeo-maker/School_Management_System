@@ -1,0 +1,6 @@
+{
+  "name": "Multi-School Management System",
+  "description": "Comprehensive SaaS multi-tenant school management system with role-based access for Super Admins, School Admins, Principals, Teachers, Students, and Parents, featuring attendance, fees, exams, academic tracking, and Gemini AI assistants.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
