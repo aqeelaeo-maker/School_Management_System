@@ -15,9 +15,10 @@ import { logAuditEvent } from './auditService';
 
 export async function getTeachers(schoolId: string): Promise<Teacher[]> {
   try {
-    const q = query(collection(db, `schools/${schoolId}/teachers`), orderBy('name', 'asc'));
-    const snapshot = await getDocs(q);
-    return snapshot.docs.map((d) => ({ id: d.id, ...d.data() } as Teacher));
+    const snapshot = await getDocs(collection(db, `schools/${schoolId}/teachers`));
+    const list = snapshot.docs.map((d) => ({ id: d.id, ...d.data() } as Teacher));
+    list.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+    return list;
   } catch (error) {
     console.error('Error fetching teachers:', error);
     return [];
