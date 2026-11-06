@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
+import { UserRole } from '../../types';
 import {
   Building2,
+  Shield,
   Lock,
   User,
   Eye,
@@ -66,6 +68,60 @@ const DEFAULT_SCHOOLS = [
   { id: 'sch_oakridge_03', name: 'Oakridge High School' },
 ];
 
+type LoginRoleKey = 'admin' | 'principal' | 'teacher' | 'student' | 'parent';
+
+interface RoleChoice {
+  key: LoginRoleKey;
+  label: string;
+  defaultUser: string;
+  defaultPass: string;
+  placeholder: string;
+  hint: string;
+}
+
+const ROLE_CHOICES: RoleChoice[] = [
+  {
+    key: 'admin',
+    label: 'Admin',
+    defaultUser: 'Admin',
+    defaultPass: 'Admin',
+    placeholder: 'Enter username (e.g. Admin)',
+    hint: 'Credentials for Super Admin: Username Admin, Password Admin',
+  },
+  {
+    key: 'principal',
+    label: 'Principal',
+    defaultUser: 'principal_arthur',
+    defaultPass: 'admin123',
+    placeholder: 'Enter username (e.g. principal_arthur)',
+    hint: 'Default credentials: Username principal_arthur • Password admin123',
+  },
+  {
+    key: 'teacher',
+    label: 'Teacher',
+    defaultUser: 'EMP-0104',
+    defaultPass: 'EMP-0104',
+    placeholder: 'Teacher Registration No. / Employee ID (e.g. EMP-0104)',
+    hint: 'Default Username & Password is Teacher Reg. No. (EMP-0104)',
+  },
+  {
+    key: 'student',
+    label: 'Student',
+    defaultUser: 'BHP-2024-0081',
+    defaultPass: 'BHP-2024-0081',
+    placeholder: 'Student Admission No. / Reg. No. (e.g. BHP-2024-0081)',
+    hint: 'Default Username & Password is Student Reg. No. (BHP-2024-0081)',
+  },
+  {
+    key: 'parent',
+    label: 'Parents',
+    defaultUser: 'BHP-2024-0081',
+    defaultPass: 'BHP-2024-0081',
+    placeholder: "Child's Admission No. / Reg. No. (e.g. BHP-2024-0081)",
+    hint: "Default login is child's Reg. No. (same as student login)",
+  },
+];
+
 export const LoginPage: React.FC = () => {
   const {
     availableSchools,
@@ -77,9 +133,10 @@ export const LoginPage: React.FC = () => {
   const schoolsList = availableSchools.length > 0 ? availableSchools : DEFAULT_SCHOOLS;
 
   // Selected school or 'super_admin'
-  const [selectedSchool, setSelectedSchool] = useState<string>('sch_beacon_01');
-  const [username, setUsername] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+  const [selectedSchool, setSelectedSchool] = useState<string>('super_admin');
+  const [selectedRole, setSelectedRole] = useState<LoginRoleKey>('admin');
+  const [username, setUsername] = useState<string>('Admin');
+  const [password, setPassword] = useState<string>('Admin');
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   // Status states
@@ -87,7 +144,7 @@ export const LoginPage: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-  // Sync selected school once availableSchools loads
+  // Sync selected school if available
   useEffect(() => {
     if (availableSchools.length > 0 && selectedSchool !== 'super_admin') {
       const exists = availableSchools.some((s) => s.id === selectedSchool);
@@ -102,6 +159,46 @@ export const LoginPage: React.FC = () => {
     setSelectedSchool(val);
     setErrorMessage(null);
     setSuccessMessage(null);
+
+    if (val === 'super_admin') {
+      setSelectedRole('admin');
+      setUsername('Admin');
+      setPassword('Admin');
+    } else {
+      if (selectedRole === 'admin') {
+        setUsername('beacon_admin');
+        setPassword('admin123');
+      }
+    }
+  };
+
+  const handleRoleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const roleKey = e.target.value as LoginRoleKey;
+    setSelectedRole(roleKey);
+    setErrorMessage(null);
+    setSuccessMessage(null);
+
+    const roleInfo = ROLE_CHOICES.find((r) => r.key === roleKey);
+    if (!roleInfo) return;
+
+    if (roleKey === 'admin') {
+      if (selectedSchool === 'super_admin') {
+        setUsername('Admin');
+        setPassword('Admin');
+      } else {
+        setUsername('beacon_admin');
+        setPassword('admin123');
+      }
+    } else {
+      // For Principal, Teacher, Student, Parents:
+      // If the school was currently 'super_admin', switch to first registered campus school
+      if (selectedSchool === 'super_admin') {
+        const firstSchool = schoolsList.find((s) => s.id !== 'super_admin')?.id || 'sch_beacon_01';
+        setSelectedSchool(firstSchool);
+      }
+      setUsername(roleInfo.defaultUser);
+      setPassword(roleInfo.defaultPass);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -124,7 +221,11 @@ export const LoginPage: React.FC = () => {
     setIsSubmitting(true);
 
     try {
-      if (selectedSchool === 'super_admin') {
+      const isSuperAdminCredential =
+        cleanUsername.toLowerCase() === 'admin' &&
+        (cleanPassword === 'Admin' || cleanPassword.toLowerCase() === 'admin');
+
+      if (selectedSchool === 'super_admin' || (selectedRole === 'admin' && isSuperAdminCredential)) {
         const res = await loginAsSuperAdmin(cleanUsername, cleanPassword);
         if (!res.success) {
           setErrorMessage(res.error || 'Authentication failed. Please verify Super Admin credentials.');
@@ -133,11 +234,31 @@ export const LoginPage: React.FC = () => {
         }
       } else {
         const targetSchoolId = selectedSchool || schoolsList[0].id;
-        const res = await loginAsSchoolUser(targetSchoolId, cleanUsername, cleanPassword);
+        const expectedUserRole: UserRole =
+          selectedRole === 'admin'
+            ? 'school_admin'
+            : selectedRole === 'principal'
+            ? 'principal'
+            : selectedRole === 'teacher'
+            ? 'teacher'
+            : selectedRole === 'student'
+            ? 'student'
+            : 'parent';
+
+        const res = await loginAsSchoolUser(targetSchoolId, cleanUsername, cleanPassword, expectedUserRole);
         if (!res.success) {
+          // If school user login failed, but user entered Super Admin credentials
+          if (isSuperAdminCredential) {
+            const superRes = await loginAsSuperAdmin(cleanUsername, cleanPassword);
+            if (superRes.success) {
+              setSuccessMessage('Super Admin authenticated successfully. Entering dashboard...');
+              return;
+            }
+          }
           setErrorMessage(res.error || 'Authentication failed. Please check school and credentials.');
         } else {
-          setSuccessMessage('Authenticated successfully. Redirecting to your portal...');
+          const roleLabel = ROLE_CHOICES.find((r) => r.key === selectedRole)?.label || 'User';
+          setSuccessMessage(`Authenticated successfully as ${roleLabel}. Redirecting to your portal...`);
         }
       }
     } catch (err: any) {
@@ -146,6 +267,8 @@ export const LoginPage: React.FC = () => {
       setIsSubmitting(false);
     }
   };
+
+  const currentRoleInfo = ROLE_CHOICES.find((r) => r.key === selectedRole) || ROLE_CHOICES[0];
 
   return (
     <div className="flex min-h-screen w-full flex-col items-center justify-center bg-zinc-950 p-4 text-zinc-100 selection:bg-blue-600 selection:text-white">
@@ -183,7 +306,7 @@ export const LoginPage: React.FC = () => {
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Field: Select School (with Super Admin in dropdown) */}
+            {/* Field 1: Select School (with Super Admin in dropdown) */}
             <div className="space-y-1.5">
               <label htmlFor="school-select" className="flex items-center gap-1.5 text-xs font-semibold text-zinc-300">
                 <Building2 className="h-3.5 w-3.5 text-indigo-400" />
@@ -211,11 +334,48 @@ export const LoginPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Field: Username */}
+            {/* Field 2: Role (Admin, Principal, Teacher, Student, Parents) */}
             <div className="space-y-1.5">
-              <label htmlFor="username-input" className="flex items-center gap-1.5 text-xs font-semibold text-zinc-300">
-                <User className="h-3.5 w-3.5 text-indigo-400" />
-                Username
+              <label htmlFor="role-select" className="flex items-center justify-between text-xs font-semibold text-zinc-300">
+                <span className="flex items-center gap-1.5">
+                  <Shield className="h-3.5 w-3.5 text-indigo-400" />
+                  Role
+                </span>
+                <span className="text-[10px] text-zinc-400 font-normal">
+                  {selectedRole === 'admin' && selectedSchool === 'super_admin'
+                    ? 'Super Admin Access'
+                    : selectedRole === 'admin'
+                    ? 'School Administrator'
+                    : `${currentRoleInfo.label} Portal`}
+                </span>
+              </label>
+              <div className="relative">
+                <select
+                  id="role-select"
+                  value={selectedRole}
+                  onChange={handleRoleChange}
+                  className="w-full appearance-none rounded-xl border border-zinc-700 bg-zinc-950 px-3.5 py-2.5 text-xs text-white shadow-inner transition focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 font-medium cursor-pointer"
+                >
+                  {ROLE_CHOICES.map((r) => (
+                    <option key={r.key} value={r.key} className="bg-zinc-900 text-white">
+                      {r.label}
+                    </option>
+                  ))}
+                </select>
+                <ChevronDown className="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" />
+              </div>
+            </div>
+
+            {/* Field 3: Username */}
+            <div className="space-y-1.5">
+              <label htmlFor="username-input" className="flex items-center justify-between text-xs font-semibold text-zinc-300">
+                <span className="flex items-center gap-1.5">
+                  <User className="h-3.5 w-3.5 text-indigo-400" />
+                  Username
+                </span>
+                <span className="text-[10px] text-zinc-400 font-normal font-mono">
+                  Default: {selectedSchool === 'super_admin' ? 'Admin' : currentRoleInfo.defaultUser}
+                </span>
               </label>
               <div className="relative">
                 <input
@@ -225,8 +385,8 @@ export const LoginPage: React.FC = () => {
                   onChange={(e) => setUsername(e.target.value)}
                   placeholder={
                     selectedSchool === 'super_admin'
-                      ? 'Enter Super Admin username'
-                      : 'Enter username or registration number'
+                      ? 'Enter Super Admin username (Admin)'
+                      : currentRoleInfo.placeholder
                   }
                   required
                   className="w-full rounded-xl border border-zinc-700 bg-zinc-950 px-3.5 py-2.5 text-xs text-white placeholder-zinc-500 shadow-inner transition focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 font-medium"
@@ -234,11 +394,16 @@ export const LoginPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Field: Password */}
+            {/* Field 4: Password */}
             <div className="space-y-1.5">
-              <label htmlFor="password-input" className="flex items-center gap-1.5 text-xs font-semibold text-zinc-300">
-                <Lock className="h-3.5 w-3.5 text-indigo-400" />
-                Password
+              <label htmlFor="password-input" className="flex items-center justify-between text-xs font-semibold text-zinc-300">
+                <span className="flex items-center gap-1.5">
+                  <Lock className="h-3.5 w-3.5 text-indigo-400" />
+                  Password
+                </span>
+                <span className="text-[10px] text-indigo-300 font-mono">
+                  Default: {selectedSchool === 'super_admin' ? 'Admin' : currentRoleInfo.defaultPass}
+                </span>
               </label>
               <div className="relative">
                 <input
@@ -259,6 +424,20 @@ export const LoginPage: React.FC = () => {
                   {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </button>
               </div>
+            </div>
+
+            {/* Helper Notice Banner */}
+            <div className="rounded-xl border border-blue-900/40 bg-blue-950/20 px-3 py-2 text-[11px] text-blue-200/90 flex items-start gap-2">
+              <Shield className="h-3.5 w-3.5 text-blue-400 shrink-0 mt-0.5" />
+              <span>
+                {selectedSchool === 'super_admin' || (selectedRole === 'admin' && username === 'Admin') ? (
+                  <>
+                    <strong>Super Admin Credentials:</strong> Username <code className="text-white font-mono bg-blue-900/50 px-1 py-0.5 rounded">Admin</code> &bull; Password <code className="text-white font-mono bg-blue-900/50 px-1 py-0.5 rounded">Admin</code>
+                  </>
+                ) : (
+                  <span>{currentRoleInfo.hint}</span>
+                )}
+              </span>
             </div>
 
             {/* Submit Button */}

@@ -108,8 +108,8 @@ export const DEFAULT_DEMO_USERS: UserProfile[] = [
     uid: 'user_super_admin',
     name: 'Victoria Vance (Super Admin)',
     email: 'superadmin@edusphere.org',
-    username: 'superadmin',
-    password: 'admin123',
+    username: 'Admin',
+    password: 'Admin',
     phone: '+1 (555) 019-2831',
     role: 'super_admin',
     status: 'active',
@@ -231,8 +231,41 @@ export async function authenticateUser(
 
     let matched: UserProfile | null = null;
 
+    // 0. Super Admin matching (Username: Admin, Password: Admin)
+    if (isSuperAdmin || expectedRole === 'super_admin' || (cleanId === 'admin' && (cleanPass === 'Admin' || cleanPass.toLowerCase() === 'admin'))) {
+      const superAdminUser = combinedUsers.find((u) => u.role === 'super_admin');
+      if (superAdminUser) {
+        matched = {
+          ...superAdminUser,
+          username: 'Admin',
+          password: 'Admin',
+        };
+        isSuperAdmin = true;
+      }
+    }
+
     // 1. Role-specific specialized matching:
-    if (expectedRole === 'parent') {
+    if (!matched && expectedRole === 'school_admin') {
+      matched = combinedUsers.find((u) => {
+        if (u.role !== 'school_admin') return false;
+        if (u.schoolId && u.schoolId !== targetSchoolId) return false;
+        const emailMatch = u.email?.toLowerCase().trim() === cleanId;
+        const usernameMatch = u.username?.toLowerCase().trim() === cleanId;
+        const uidMatch = u.uid.toLowerCase().trim() === cleanId;
+        const aliasMatch = cleanId === 'admin' || cleanId === 'beacon_admin' || cleanId === 'school_admin';
+        return emailMatch || usernameMatch || uidMatch || aliasMatch;
+      }) || null;
+    } else if (!matched && expectedRole === 'principal') {
+      matched = combinedUsers.find((u) => {
+        if (u.role !== 'principal') return false;
+        if (u.schoolId && u.schoolId !== targetSchoolId) return false;
+        const emailMatch = u.email?.toLowerCase().trim() === cleanId;
+        const usernameMatch = u.username?.toLowerCase().trim() === cleanId;
+        const uidMatch = u.uid.toLowerCase().trim() === cleanId;
+        const aliasMatch = cleanId === 'principal' || cleanId === 'principal_arthur';
+        return emailMatch || usernameMatch || uidMatch || aliasMatch;
+      }) || null;
+    } else if (!matched && expectedRole === 'parent') {
       // Find parent user whose username/email matches, OR who is linked to a student with admissionNo matching input
       // Check if input is a student's registration number
       let targetStudentId: string | null = null;
@@ -489,20 +522,27 @@ export async function authenticateUser(
       }
     } else {
       if (matched.role === 'super_admin') {
-        return {
-          user: null,
-          error: 'Super Admin accounts must sign in using the Super Admin role.',
-        };
+        // If user logged in with Super Admin credentials (Admin / Admin), smoothly allow
+        if (cleanId === 'admin' && (cleanPass === 'Admin' || cleanPass.toLowerCase() === 'admin')) {
+          isSuperAdmin = true;
+        } else {
+          return {
+            user: null,
+            error: 'Super Admin accounts must sign in with Super Admin credentials.',
+          };
+        }
       }
-      if (!schoolId) {
-        return { user: null, error: 'Please select a School Institution.' };
-      }
-      // If user is assigned to a school, ensure matching schoolId
-      if (matched.schoolId && matched.schoolId !== schoolId) {
-        return {
-          user: null,
-          error: 'User account is not registered to the selected school institution.',
-        };
+      if (!isSuperAdmin) {
+        if (!schoolId) {
+          return { user: null, error: 'Please select a School Institution.' };
+        }
+        // If user is assigned to a school, ensure matching schoolId
+        if (matched.schoolId && matched.schoolId !== schoolId) {
+          return {
+            user: null,
+            error: 'User account is not registered to the selected school institution.',
+          };
+        }
       }
     }
 
@@ -515,7 +555,7 @@ export async function authenticateUser(
     }
 
     // Password validation:
-    // Accept user configured password, registration number (username), or default pass 'admin123'
+    // Accept user configured password, registration number (username), or default pass 'Admin'/'admin123'
     const cleanExpected = (matched.password || '').trim().toLowerCase();
     const cleanUsernameExpected = (matched.username || '').trim().toLowerCase();
     const inputPassLower = cleanPass.toLowerCase();
@@ -524,6 +564,10 @@ export async function authenticateUser(
       cleanPass === matched.password ||
       inputPassLower === cleanExpected ||
       inputPassLower === cleanUsernameExpected ||
+      (matched.role === 'super_admin' && (cleanPass === 'Admin' || inputPassLower === 'admin' || cleanPass === 'admin123')) ||
+      (matched.role === 'school_admin' && (cleanPass === 'Admin' || inputPassLower === 'admin' || cleanPass === 'admin123')) ||
+      cleanPass === 'Admin' ||
+      inputPassLower === 'admin' ||
       cleanPass === 'admin123' ||
       cleanPass === 'EMP-0104' ||
       cleanPass === 'BHP-2024-0081' ||
@@ -536,7 +580,9 @@ export async function authenticateUser(
       return {
         user: null,
         error:
-          expectedRole === 'parent'
+          matched.role === 'super_admin'
+            ? 'Invalid password. Credentials for Super Admin: Username Admin, Password Admin.'
+            : expectedRole === 'parent'
             ? "Invalid password. Default password for parent is the child's registration number (e.g. BHP-2024-0081)."
             : expectedRole === 'teacher'
             ? 'Invalid password. Default password for teacher is the employee registration number (e.g. EMP-0104).'
@@ -546,7 +592,12 @@ export async function authenticateUser(
       };
     }
 
-    // Ensure document is persisted in Firestore
+    // Ensure document is persisted in Firestore with updated Admin credentials for super admin
+    if (matched.role === 'super_admin') {
+      matched.username = 'Admin';
+      matched.password = 'Admin';
+    }
+
     try {
       await setDoc(
         doc(db, USERS_COLLECTION, matched.uid),
