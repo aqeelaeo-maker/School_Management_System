@@ -162,7 +162,7 @@ export const SuperAdminDashboard: React.FC<SuperAdminDashboardProps> = ({ onNavi
         </div>
 
         {/* Chart 2: Fee Collections vs Dues (Right Side Panel) */}
-        <div className="rounded-xl border border-zinc-300 bg-[#F5F5F5] p-4 text-zinc-900 shadow-sm">
+        <div className="rounded-xl border border-zinc-300 bg-[#F7F7F7] p-4 text-zinc-900 shadow-sm">
           <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-800 mb-3">
             Institutional Fee Recovery Comparison ($)
           </h3>

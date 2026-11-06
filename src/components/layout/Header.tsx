@@ -14,21 +14,18 @@ import {
   Users,
   ChevronDown,
   RefreshCw,
-  PanelRight,
+  KeyRound,
 } from 'lucide-react';
+import { ChangePasswordModal } from './ChangePasswordModal';
 
 interface HeaderProps {
   onOpenAI: () => void;
   onOpenSearch?: () => void;
-  onToggleRightPanel?: () => void;
-  rightPanelOpen?: boolean;
 }
 
 export const Header: React.FC<HeaderProps> = ({
   onOpenAI,
   onOpenSearch,
-  onToggleRightPanel,
-  rightPanelOpen,
 }) => {
   const {
     userProfile,
@@ -44,6 +41,7 @@ export const Header: React.FC<HeaderProps> = ({
   const [showRoleMenu, setShowRoleMenu] = useState(false);
   const [showSchoolMenu, setShowSchoolMenu] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const [showChangePassword, setShowChangePassword] = useState(false);
   const [seeding, setSeeding] = useState(false);
 
   const handleSeed = async () => {
@@ -253,69 +251,99 @@ export const Header: React.FC<HeaderProps> = ({
           )}
         </div>
 
+        {/* Direct Change Password Trigger */}
+        <button
+          id="header-change-password-btn"
+          type="button"
+          onClick={() => setShowChangePassword(true)}
+          title="Change Account Password"
+          className="flex items-center gap-1.5 rounded-lg border border-zinc-700 bg-zinc-900/90 px-2.5 py-1.5 text-xs font-medium text-zinc-300 hover:border-blue-500/60 hover:bg-zinc-800 hover:text-white transition cursor-pointer shadow-sm"
+        >
+          <KeyRound className="h-3.5 w-3.5 text-blue-400" />
+          <span className="hidden sm:inline">Change Password</span>
+        </button>
+
         {/* Database Re-seed Helper Button */}
         <button
           onClick={handleSeed}
           disabled={seeding}
           title="Reset & Seed Sample School Data"
-          className="hidden sm:flex items-center gap-1 rounded-lg border border-zinc-700 bg-zinc-900 px-2 py-1.5 text-xs text-zinc-400 hover:border-zinc-600 hover:text-zinc-200"
+          className="hidden lg:flex items-center gap-1 rounded-lg border border-zinc-700 bg-zinc-900 px-2 py-1.5 text-xs text-zinc-400 hover:border-zinc-600 hover:text-zinc-200"
         >
           <RefreshCw className={`h-3.5 w-3.5 ${seeding ? 'animate-spin text-blue-400' : ''}`} />
           <span className="text-[11px]">Re-Seed</span>
         </button>
 
-        {/* Toggle Right Operations Panel */}
-        {onToggleRightPanel && (
-          <button
-            onClick={onToggleRightPanel}
-            title={rightPanelOpen ? 'Hide Right Panel' : 'Show Right Panel'}
-            className={`flex items-center gap-1 rounded-lg border px-2.5 py-1.5 text-xs transition ${
-              rightPanelOpen
-                ? 'border-zinc-400 bg-[#F5F5F5] text-zinc-900 shadow-sm font-semibold'
-                : 'border-zinc-700 bg-zinc-900 text-zinc-400 hover:border-zinc-600 hover:text-zinc-200'
-            }`}
-          >
-            <PanelRight className="h-4 w-4" />
-            <span className="hidden lg:inline text-[11px]">Panel</span>
-          </button>
-        )}
-
         {/* Profile / Logout Menu */}
         <div className="relative">
           <button
+            id="header-user-menu-btn"
+            type="button"
             onClick={() => setShowUserMenu(!showUserMenu)}
-            className="flex items-center gap-2 rounded-full ring-1 ring-zinc-700 p-0.5 hover:ring-zinc-500"
+            className="flex items-center gap-2 rounded-full ring-1 ring-zinc-700 p-0.5 hover:ring-blue-500 transition cursor-pointer"
           >
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-zinc-800 text-xs font-semibold text-zinc-200">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-tr from-zinc-800 to-zinc-700 text-xs font-bold text-zinc-100 shadow-inner">
               {userProfile?.name?.charAt(0) || 'U'}
             </div>
           </button>
 
           {showUserMenu && (
-            <div className="absolute right-0 mt-1.5 w-56 rounded-lg border border-zinc-700 bg-zinc-900 p-2 shadow-2xl z-50">
-              <div className="border-b border-zinc-800 pb-2 px-1">
-                <p className="text-xs font-semibold text-zinc-100 truncate">{userProfile?.name}</p>
+            <div className="absolute right-0 mt-1.5 w-60 rounded-xl border border-zinc-700 bg-zinc-900 p-2 shadow-2xl z-50 animate-in fade-in zoom-in-95 duration-150">
+              <div className="border-b border-zinc-800 pb-2.5 px-2 pt-1">
+                <p className="text-xs font-bold text-white truncate">{userProfile?.name}</p>
                 <p className="text-[11px] text-zinc-400 truncate">{userProfile?.email}</p>
                 {roleInfo && (
-                  <span className={`inline-block mt-1 text-[10px] px-1.5 py-0.5 rounded border ${roleInfo.bg}`}>
+                  <span className={`inline-block mt-1.5 text-[10px] font-semibold px-2 py-0.5 rounded-md border ${roleInfo.bg}`}>
                     {roleInfo.label}
                   </span>
                 )}
               </div>
-              <button
-                onClick={() => {
-                  logout();
-                  setShowUserMenu(false);
-                }}
-                className="mt-2 flex w-full items-center gap-2 rounded px-2 py-1.5 text-left text-xs text-red-400 hover:bg-red-950/40 hover:text-red-300"
-              >
-                <LogOut className="h-3.5 w-3.5" />
-                <span>Sign Out</span>
-              </button>
+
+              <div className="py-1 space-y-0.5">
+                {/* Change Password Option */}
+                <button
+                  id="menu-change-password-item"
+                  type="button"
+                  onClick={() => {
+                    setShowChangePassword(true);
+                    setShowUserMenu(false);
+                  }}
+                  className="flex w-full items-center gap-2 rounded-lg px-2.5 py-2 text-left text-xs text-zinc-200 hover:bg-blue-950/40 hover:text-blue-200 transition cursor-pointer"
+                >
+                  <KeyRound className="h-3.5 w-3.5 text-blue-400" />
+                  <div className="flex flex-col">
+                    <span className="font-medium">Change Password</span>
+                    <span className="text-[10px] text-zinc-400">Update security credentials</span>
+                  </div>
+                </button>
+
+                {/* Sign Out Option */}
+                <button
+                  id="menu-sign-out-item"
+                  type="button"
+                  onClick={() => {
+                    logout();
+                    setShowUserMenu(false);
+                  }}
+                  className="flex w-full items-center gap-2 rounded-lg px-2.5 py-2 text-left text-xs text-red-400 hover:bg-red-950/40 hover:text-red-300 transition cursor-pointer"
+                >
+                  <LogOut className="h-3.5 w-3.5" />
+                  <div className="flex flex-col">
+                    <span className="font-medium">Sign Out</span>
+                    <span className="text-[10px] text-zinc-400">End current session</span>
+                  </div>
+                </button>
+              </div>
             </div>
           )}
         </div>
       </div>
+
+      {/* Change Password Modal */}
+      <ChangePasswordModal
+        isOpen={showChangePassword}
+        onClose={() => setShowChangePassword(false)}
+      />
     </header>
   );
 };

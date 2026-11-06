@@ -311,7 +311,7 @@ export const SchoolDashboard: React.FC<SchoolDashboardProps> = ({ onNavigateTab,
         </div>
 
         {/* Recent Bulletin Notices (Right Side Panel) */}
-        <div className="rounded-xl border border-zinc-300 bg-[#F5F5F5] p-5 lg:col-span-2 text-zinc-900 shadow-sm">
+        <div className="rounded-xl border border-zinc-300 bg-[#F7F7F7] p-5 lg:col-span-2 text-zinc-900 shadow-sm">
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-800 flex items-center gap-1.5">
               <Bell className="h-4 w-4 text-blue-600" />

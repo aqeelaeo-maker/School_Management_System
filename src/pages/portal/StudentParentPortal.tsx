@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
+import { Student } from '../../types';
 import {
   GraduationCap,
   Calendar,
@@ -14,7 +15,11 @@ import {
   Send,
   Printer,
   Sparkles,
+  User,
+  Users,
+  ChevronDown,
 } from 'lucide-react';
+import { getStudents } from '../../services/studentService';
 import { getExamResults } from '../../services/examService';
 import { getInvoices } from '../../services/feeService';
 import { getHomework } from '../../services/operationsService';
@@ -26,6 +31,9 @@ export const StudentParentPortal: React.FC = () => {
   const schoolId = currentSchool?.id || 'sch_beacon_01';
 
   const [activeTab, setActiveTab] = useState<'overview' | 'academics' | 'fees' | 'homework' | 'schedule'>('overview');
+  const [allStudents, setAllStudents] = useState<Student[]>([]);
+  const [activeStudent, setActiveStudent] = useState<Student | null>(null);
+  const [parentChildren, setParentChildren] = useState<Student[]>([]);
   const [examResults, setExamResults] = useState<any[]>([]);
   const [invoices, setInvoices] = useState<any[]>([]);
   const [homeworkList, setHomeworkList] = useState<any[]>([]);
@@ -33,60 +41,138 @@ export const StudentParentPortal: React.FC = () => {
   const [timetable, setTimetable] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Student mock identity
-  const student = {
-    name: 'Alexander Hayes',
-    rollNo: '2026-0801',
-    admissionNo: 'ADM-8821',
-    className: 'Grade 8',
-    sectionName: 'Section A',
-    attendancePct: 96.4,
-    classRank: 1,
-    gpa: 3.9,
-  };
-
   useEffect(() => {
     async function loadPortalData() {
       setLoading(true);
       try {
-        const [res, inv, hw, nots, tt] = await Promise.all([
+        const [stdList, res, inv, hw, nots] = await Promise.all([
+          getStudents(schoolId),
           getExamResults(schoolId),
           getInvoices(schoolId),
           getHomework(schoolId),
           getNotices(schoolId),
-          getTimetable(schoolId, 'cls_8'),
         ]);
+
+        setAllStudents(stdList);
         setExamResults(res);
         setInvoices(inv);
         setHomeworkList(hw);
         setNotices(nots);
-        setTimetable(tt);
+
+        // Determine current active student
+        let currentTargetStudent: Student | null = null;
+
+        if (userProfile?.role === 'student') {
+          currentTargetStudent =
+            stdList.find(
+              (s) =>
+                s.id === userProfile.studentId ||
+                (s.admissionNo && s.admissionNo.toLowerCase() === userProfile.username?.toLowerCase()) ||
+                s.name.toLowerCase() === userProfile.name.toLowerCase()
+            ) || stdList[0] || null;
+        } else if (userProfile?.role === 'parent') {
+          const linkedIds = userProfile.linkedStudentIds || [];
+          const matchedKids = stdList.filter(
+            (s) =>
+              linkedIds.includes(s.id) ||
+              (s.admissionNo && s.admissionNo.toLowerCase() === userProfile.username?.toLowerCase()) ||
+              s.parentIds?.includes(userProfile.parentId || '')
+          );
+          setParentChildren(matchedKids.length > 0 ? matchedKids : stdList.slice(0, 2));
+          currentTargetStudent = matchedKids.length > 0 ? matchedKids[0] : stdList[0] || null;
+        } else {
+          currentTargetStudent = stdList[0] || null;
+        }
+
+        setActiveStudent(currentTargetStudent);
+
+        if (currentTargetStudent?.classId) {
+          const tt = await getTimetable(schoolId, currentTargetStudent.classId);
+          setTimetable(tt);
+        } else {
+          const tt = await getTimetable(schoolId, 'cls_grade_8');
+          setTimetable(tt);
+        }
       } finally {
         setLoading(false);
       }
     }
     loadPortalData();
-  }, [schoolId]);
+  }, [schoolId, userProfile]);
+
+  const handleSelectChild = async (childId: string) => {
+    const child = allStudents.find((s) => s.id === childId);
+    if (child) {
+      setActiveStudent(child);
+      if (child.classId) {
+        const tt = await getTimetable(schoolId, child.classId);
+        setTimetable(tt);
+      }
+    }
+  };
+
+  const studentDisplay = {
+    name: activeStudent?.name || userProfile?.name || 'Alex Reynolds',
+    rollNo: activeStudent?.rollNo || '08-A-01',
+    admissionNo: activeStudent?.admissionNo || userProfile?.username || 'BHP-2024-0081',
+    className: activeStudent?.className || 'Grade 8',
+    sectionName: activeStudent?.sectionName || 'Section A',
+    attendancePct: 96.4,
+    classRank: 1,
+    gpa: 3.9,
+  };
 
   return (
     <div className="space-y-6">
+      {/* Parent Ward/Child Selector (if parent has multiple children) */}
+      {userProfile?.role === 'parent' && parentChildren.length > 1 && (
+        <div className="flex items-center justify-between rounded-xl border border-zinc-800 bg-zinc-900/90 p-3.5 shadow-sm">
+          <div className="flex items-center gap-2 text-xs font-semibold text-zinc-200">
+            <Users className="h-4 w-4 text-emerald-400" />
+            <span>Select Enrolled Ward / Child:</span>
+          </div>
+          <div className="flex items-center gap-2">
+            {parentChildren.map((ch) => (
+              <button
+                key={ch.id}
+                type="button"
+                onClick={() => handleSelectChild(ch.id)}
+                className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition ${
+                  activeStudent?.id === ch.id
+                    ? 'bg-emerald-600 text-white shadow'
+                    : 'bg-zinc-800 text-zinc-300 hover:bg-zinc-700'
+                }`}
+              >
+                {ch.name} ({ch.admissionNo})
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Student Banner */}
       <div className="relative overflow-hidden rounded-2xl border border-zinc-800 bg-gradient-to-r from-blue-950/80 via-zinc-900 to-indigo-950/80 p-6 shadow-xl">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-4">
             <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-blue-600 font-bold text-white text-xl shadow-lg">
-              {student.name.charAt(0)}
+              {studentDisplay.name.charAt(0)}
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h1 className="text-xl font-bold text-white tracking-tight">{student.name}</h1>
+                <h1 className="text-xl font-bold text-white tracking-tight">{studentDisplay.name}</h1>
                 <span className="rounded-full bg-emerald-950/80 border border-emerald-800/60 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-400">
                   Enrolled Active
                 </span>
+                {userProfile?.role === 'parent' && (
+                  <span className="rounded-full bg-indigo-950/80 border border-indigo-800/60 px-2.5 py-0.5 text-[11px] font-semibold text-indigo-300">
+                    Parent View
+                  </span>
+                )}
               </div>
               <p className="text-xs text-zinc-400 mt-0.5">
-                Roll No: <span className="font-mono text-zinc-200">{student.rollNo}</span> •{' '}
-                {student.className} ({student.sectionName}) • {currentSchool?.name}
+                Reg No: <span className="font-mono text-zinc-200 font-semibold">{studentDisplay.admissionNo}</span> • Roll No:{' '}
+                <span className="font-mono text-zinc-200">{studentDisplay.rollNo}</span> •{' '}
+                {studentDisplay.className} ({studentDisplay.sectionName}) • {currentSchool?.name}
               </p>
             </div>
           </div>
@@ -94,15 +180,15 @@ export const StudentParentPortal: React.FC = () => {
           <div className="flex items-center gap-3">
             <div className="rounded-xl border border-zinc-800 bg-zinc-900/80 px-4 py-2 text-center">
               <span className="text-[10px] uppercase font-semibold text-zinc-400">Attendance</span>
-              <div className="text-base font-bold text-emerald-400">{student.attendancePct}%</div>
+              <div className="text-base font-bold text-emerald-400">{studentDisplay.attendancePct}%</div>
             </div>
             <div className="rounded-xl border border-zinc-800 bg-zinc-900/80 px-4 py-2 text-center">
               <span className="text-[10px] uppercase font-semibold text-zinc-400">Term GPA</span>
-              <div className="text-base font-bold text-blue-400">{student.gpa} / 4.0</div>
+              <div className="text-base font-bold text-blue-400">{studentDisplay.gpa} / 4.0</div>
             </div>
             <div className="rounded-xl border border-zinc-800 bg-zinc-900/80 px-4 py-2 text-center">
               <span className="text-[10px] uppercase font-semibold text-zinc-400">Rank</span>
-              <div className="text-base font-bold text-purple-400">#{student.classRank} in Class</div>
+              <div className="text-base font-bold text-purple-400">#{studentDisplay.classRank} in Class</div>
             </div>
           </div>
         </div>
@@ -223,7 +309,7 @@ export const StudentParentPortal: React.FC = () => {
           {/* Right Col: Quick Fee Summary & Attendance */}
           <div className="space-y-6">
             {/* Fee Card */}
-            <div className="rounded-xl border border-zinc-300 bg-[#F5F5F5] p-5 space-y-3 text-zinc-900 shadow-sm">
+            <div className="rounded-xl border border-zinc-300 bg-[#F7F7F7] p-5 space-y-3 text-zinc-900 shadow-sm">
               <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-800 flex items-center gap-2">
                 <CreditCard className="h-4 w-4 text-emerald-600" />
                 Fee Payment Status
@@ -243,7 +329,7 @@ export const StudentParentPortal: React.FC = () => {
             </div>
 
             {/* Quick Actions */}
-            <div className="rounded-xl border border-zinc-300 bg-[#F5F5F5] p-5 space-y-3 text-zinc-900 shadow-sm">
+            <div className="rounded-xl border border-zinc-300 bg-[#F7F7F7] p-5 space-y-3 text-zinc-900 shadow-sm">
               <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-800">Parent Direct Actions</h3>
               <button
                 onClick={() => alert('Leave application submitted to Class Teacher!')}

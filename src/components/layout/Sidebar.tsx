@@ -20,6 +20,7 @@ import {
   Settings,
   ShieldAlert,
   UserCheck,
+  LogOut,
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -35,7 +36,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   isOpen,
   onClose,
 }) => {
-  const { userProfile, currentSchool } = useAuth();
+  const { userProfile, currentSchool, logout } = useAuth();
   const role = userProfile?.role || 'school_admin';
 
   interface NavItem {
@@ -136,12 +137,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
       )}
 
       <aside
-        className={`fixed top-0 bottom-0 left-0 z-50 flex w-64 flex-col border-r border-zinc-800 bg-zinc-950 transition-transform duration-200 ease-in-out lg:static lg:translate-x-0 ${
+        className={`fixed top-0 bottom-0 left-0 z-50 flex w-64 flex-col border-r border-zinc-800 bg-zinc-950 text-zinc-100 transition-transform duration-200 ease-in-out lg:static lg:translate-x-0 ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         {/* Brand Banner */}
-        <div className="flex h-16 items-center gap-2.5 border-b border-zinc-800 px-5">
+        <div className="flex h-16 items-center gap-2.5 border-b border-zinc-800 bg-zinc-950 px-5">
           <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-tr from-blue-600 to-indigo-600 text-white font-black shadow-md">
             <Building2 className="h-5 w-5" />
           </div>
@@ -154,7 +155,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </div>
 
         {/* Navigation list */}
-        <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-4 custom-scrollbar">
+        <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-4 custom-scrollbar bg-zinc-950">
           <div className="px-2 pb-2 text-[10px] font-semibold uppercase tracking-wider text-zinc-400">
             {role.replace('_', ' ')} Portal
           </div>
@@ -170,7 +171,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 }}
                 className={`group flex w-full items-center justify-between rounded-lg px-3 py-2 text-xs font-medium transition ${
                   isActive
-                    ? 'bg-blue-600/15 text-blue-400 ring-1 ring-blue-500/30'
+                    ? 'bg-blue-600/15 text-blue-400 ring-1 ring-blue-500/30 font-semibold'
                     : 'text-zinc-400 hover:bg-zinc-900 hover:text-zinc-200'
                 }`}
               >
@@ -192,12 +193,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
           })}
         </nav>
 
-        {/* Footer info */}
-        <div className="border-t border-zinc-800/80 p-3">
+        {/* Footer info & Logout */}
+        <div className="border-t border-zinc-800/80 bg-zinc-950 p-3 space-y-2">
           <div className="rounded-lg bg-zinc-900/60 p-2.5 border border-zinc-800">
             <div className="flex items-center justify-between">
               <span className="text-[10px] font-medium text-zinc-400">Database Status</span>
-              <span className="flex items-center gap-1 text-[10px] text-emerald-400">
+              <span className="flex items-center gap-1 text-[10px] font-semibold text-emerald-400">
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
                 Connected
               </span>
@@ -206,6 +207,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
               {currentSchool ? currentSchool.name : 'Multi-Tenant Firestore'}
             </p>
           </div>
+
+          <button
+            onClick={() => logout()}
+            className="flex w-full items-center justify-center gap-2 rounded-lg border border-zinc-800 bg-zinc-900/80 py-2 px-3 text-xs font-semibold text-zinc-400 hover:border-red-900/60 hover:bg-red-950/30 hover:text-red-300 transition"
+          >
+            <LogOut className="h-3.5 w-3.5" />
+            <span>Sign Out / Switch</span>
+          </button>
         </div>
       </aside>
     </>

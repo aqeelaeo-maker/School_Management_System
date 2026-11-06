@@ -15,6 +15,8 @@ export interface UserProfile {
   uid: string;
   name: string;
   email: string;
+  username?: string;
+  password?: string;
   phone?: string;
   photoURL?: string;
   role: UserRole;

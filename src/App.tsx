@@ -29,6 +29,9 @@ import { SchoolSettingsPage } from './pages/school-admin/SchoolSettingsPage';
 import { StudentParentPortal } from './pages/portal/StudentParentPortal';
 import { TeacherPortal } from './pages/portal/TeacherPortal';
 
+// Auth Page
+import { LoginPage } from './pages/auth/LoginPage';
+
 // Loading & AI components
 import { RefreshCw, Sparkles, Building2, ShieldAlert } from 'lucide-react';
 import { AIAssistantModal } from './components/ai/AIAssistantModal';
@@ -79,6 +82,11 @@ const AppContent: React.FC = () => {
         <p className="mt-1 text-xs text-zinc-500 font-mono">Loading Tenant Partitioning & Auth States</p>
       </div>
     );
+  }
+
+  // If unauthenticated, show the dedicated login page
+  if (!userProfile) {
+    return <LoginPage />;
   }
 
   // Render the current view according to active tab and role

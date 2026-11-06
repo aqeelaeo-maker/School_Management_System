@@ -8,7 +8,7 @@ import {
 } from 'firebase/auth';
 import { auth, db } from '../firebase/config';
 import { UserProfile, School, UserRole } from '../types';
-import { getUserProfile, createUserProfile } from '../services/userService';
+import { getUserProfile, createUserProfile, authenticateUser, changeUserPassword } from '../services/userService';
 import { getAllSchools, getSchoolById } from '../services/schoolService';
 import { seedInitialDatabase } from '../services/seedService';
 
@@ -19,7 +19,10 @@ interface AuthContextType {
   availableSchools: School[];
   loading: boolean;
   login: (email: string, pass: string) => Promise<void>;
+  loginAsSuperAdmin: (usernameOrEmail: string, password: string) => Promise<{ success: boolean; error?: string }>;
+  loginAsSchoolUser: (schoolId: string, usernameOrEmail: string, password: string, expectedRole?: UserRole) => Promise<{ success: boolean; error?: string }>;
   logout: () => Promise<void>;
+  changePassword: (newPassword: string, currentPassword?: string) => Promise<{ success: boolean; error?: string }>;
   quickLoginAsRole: (role: UserRole, targetSchoolId?: string) => Promise<void>;
   switchSchool: (schoolId: string) => Promise<void>;
   refreshProfile: () => Promise<void>;
@@ -134,6 +137,49 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  const loginAsSuperAdmin = async (
+    usernameOrEmail: string,
+    passwordInput: string
+  ): Promise<{ success: boolean; error?: string }> => {
+    try {
+      const res = await authenticateUser(usernameOrEmail, passwordInput, undefined, true);
+      if (!res.user) {
+        return { success: false, error: res.error || 'Authentication failed' };
+      }
+      setUserProfile(res.user);
+      localStorage.setItem('sms_current_uid', res.user.uid);
+      if (availableSchools.length > 0) {
+        setCurrentSchool(availableSchools[0]);
+      }
+      return { success: true };
+    } catch (err: any) {
+      return { success: false, error: err.message || 'Login error occurred' };
+    }
+  };
+
+  const loginAsSchoolUser = async (
+    schoolId: string,
+    usernameOrEmail: string,
+    passwordInput: string,
+    expectedRole?: UserRole
+  ): Promise<{ success: boolean; error?: string }> => {
+    try {
+      const res = await authenticateUser(usernameOrEmail, passwordInput, schoolId, false, expectedRole);
+      if (!res.user) {
+        return { success: false, error: res.error || 'Authentication failed' };
+      }
+      setUserProfile(res.user);
+      localStorage.setItem('sms_current_uid', res.user.uid);
+      const sch = availableSchools.find((s) => s.id === schoolId) || (await getSchoolById(schoolId));
+      if (sch) {
+        setCurrentSchool(sch);
+      }
+      return { success: true };
+    } catch (err: any) {
+      return { success: false, error: err.message || 'Login error occurred' };
+    }
+  };
+
   const logout = async () => {
     try {
       await signOut(auth);
@@ -143,6 +189,24 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.removeItem('sms_current_uid');
     setUserProfile(null);
     setCurrentSchool(null);
+  };
+
+  const changePassword = async (
+    newPassword: string,
+    currentPassword?: string
+  ): Promise<{ success: boolean; error?: string }> => {
+    if (!userProfile) {
+      return { success: false, error: 'No active user session found.' };
+    }
+    try {
+      const res = await changeUserPassword(userProfile.uid, newPassword, currentPassword);
+      if (res.success) {
+        setUserProfile((prev) => (prev ? { ...prev, password: newPassword } : null));
+      }
+      return res;
+    } catch (err: any) {
+      return { success: false, error: err.message || 'Failed to update password.' };
+    }
   };
 
   // Quick switch role simulator for live testing of all 6 portals
@@ -245,7 +309,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         availableSchools,
         loading,
         login,
+        loginAsSuperAdmin,
+        loginAsSchoolUser,
         logout,
+        changePassword,
         quickLoginAsRole,
         switchSchool,
         refreshProfile,

@@ -42,6 +42,26 @@ export async function createTeacher(
 
   await setDoc(doc(db, `schools/${schoolId}/teachers`, teacherId), newTeacher);
 
+  // Automatically create default user account for teacher (Username & Password = employeeId)
+  try {
+    const teacherUser: any = {
+      uid: `user_${teacherId}`,
+      name: newTeacher.name,
+      email: newTeacher.email || `${newTeacher.employeeId.toLowerCase().replace(/[^a-z0-9]/g, '')}@beaconhill.edu`,
+      username: newTeacher.employeeId, // Default username is Teacher Registration / Employee ID
+      password: newTeacher.employeeId, // Default password is Teacher Registration / Employee ID
+      role: 'teacher',
+      schoolId,
+      teacherId,
+      status: 'active',
+      createdAt: now,
+      updatedAt: now,
+    };
+    await setDoc(doc(db, 'users', teacherUser.uid), teacherUser, { merge: true });
+  } catch (userErr) {
+    console.warn('Could not auto-create teacher auth profile:', userErr);
+  }
+
   await logAuditEvent({
     schoolId,
     userId: author.id,

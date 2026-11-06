@@ -59,6 +59,42 @@ export async function createStudent(
 
   await setDoc(doc(db, `schools/${schoolId}/students`, studentId), newStudent);
 
+  // Automatically create default user account for student (Username & Password = admissionNo)
+  try {
+    const studentUser: any = {
+      uid: `user_${studentId}`,
+      name: newStudent.name,
+      email: newStudent.email || `${newStudent.admissionNo.toLowerCase().replace(/[^a-z0-9]/g, '')}@student.beaconhill.edu`,
+      username: newStudent.admissionNo,
+      password: newStudent.admissionNo, // Default password is registration number
+      role: 'student',
+      schoolId,
+      studentId,
+      status: 'active',
+      createdAt: now,
+      updatedAt: now,
+    };
+    await setDoc(doc(db, 'users', studentUser.uid), studentUser, { merge: true });
+
+    // Automatically create default user account for student's parent (Username & Password = student's admissionNo)
+    const parentUser: any = {
+      uid: `user_parent_${studentId}`,
+      name: newStudent.guardianName || newStudent.fatherName || `Parent of ${newStudent.name}`,
+      email: newStudent.email ? `parent.${newStudent.email}` : `parent.${newStudent.admissionNo.toLowerCase().replace(/[^a-z0-9]/g, '')}@beaconhill.edu`,
+      username: newStudent.admissionNo, // Default username is child's registration number
+      password: newStudent.admissionNo, // Default password is child's registration number (same login)
+      role: 'parent',
+      schoolId,
+      linkedStudentIds: [studentId],
+      status: 'active',
+      createdAt: now,
+      updatedAt: now,
+    };
+    await setDoc(doc(db, 'users', parentUser.uid), parentUser, { merge: true });
+  } catch (userErr) {
+    console.warn('Could not auto-create student/parent auth profiles:', userErr);
+  }
+
   await logAuditEvent({
     schoolId,
     userId: author.id,

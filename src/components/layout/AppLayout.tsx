@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Header } from './Header';
 import { Sidebar } from './Sidebar';
-import { RightPanel } from './RightPanel';
 import { AIAssistantModal } from '../ai/AIAssistantModal';
 import { Menu } from 'lucide-react';
 
@@ -17,7 +16,6 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
   children,
 }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [rightPanelOpen, setRightPanelOpen] = useState(true);
   const [aiModalOpen, setAiModalOpen] = useState(false);
 
   return (
@@ -37,34 +35,22 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
           {/* Mobile menu trigger */}
           <button
             onClick={() => setSidebarOpen(true)}
-            className="p-3 text-zinc-400 hover:text-white lg:hidden border-b border-zinc-800 bg-zinc-950"
+            className="p-3 text-zinc-400 hover:text-white lg:hidden border-b border-zinc-800 bg-zinc-950 transition"
           >
             <Menu className="h-5 w-5" />
           </button>
           <div className="flex-1">
             <Header
               onOpenAI={() => setAiModalOpen(true)}
-              onToggleRightPanel={() => setRightPanelOpen(!rightPanelOpen)}
-              rightPanelOpen={rightPanelOpen}
             />
           </div>
         </div>
 
-        {/* Dynamic page content & Right Side Panel */}
+        {/* Dynamic page content */}
         <div className="flex flex-1 overflow-hidden">
           <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 custom-scrollbar">
             <div className="mx-auto max-w-7xl">{children}</div>
           </main>
-
-          {/* Right side panel with F5F5F5 theme */}
-          {rightPanelOpen && (
-            <RightPanel
-              isOpen={rightPanelOpen}
-              onClose={() => setRightPanelOpen(false)}
-              onNavigateTab={setActiveTab}
-              onOpenAI={() => setAiModalOpen(true)}
-            />
-          )}
         </div>
       </div>
 
@@ -76,3 +62,4 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
     </div>
   );
 };
+
