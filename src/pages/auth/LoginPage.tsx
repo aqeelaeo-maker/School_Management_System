@@ -227,21 +227,26 @@ export const LoginPage: React.FC = () => {
   const currentRoleInfo = ROLE_CHOICES.find((r) => r.key === selectedRole) || ROLE_CHOICES[0];
 
   return (
-    <div className="relative flex min-h-screen w-full flex-col items-center justify-center bg-gradient-to-br from-[#022534] via-[#044354] to-[#026B7E] p-4 text-slate-800 antialiased selection:bg-[#00D2BC] selection:text-[#022534] overflow-hidden">
-      {/* Ocean Teal & Turquoise Ambient Atmospheric Lighting */}
+    <div
+      className="relative flex min-h-screen w-full flex-col items-center justify-center p-4 antialiased selection:bg-[#00D2BC] selection:text-[#0A2E68] overflow-hidden"
+      style={{
+        background: 'linear-gradient(135deg, #0A2E68 0%, #064E78 35%, #027A8F 70%, #00D2BC 100%)',
+      }}
+    >
+      {/* Blue-to-Turquoise Ambient Lighting Mesh */}
       <div className="pointer-events-none fixed inset-0 overflow-hidden">
-        {/* Top-left vibrant Turquoise aura */}
-        <div className="absolute -top-32 -left-20 h-[34rem] w-[34rem] rounded-full bg-[#00D2BC]/25 blur-[100px]" />
-        {/* Bottom-right deep Ocean Teal aura */}
-        <div className="absolute -bottom-28 -right-16 h-[36rem] w-[36rem] rounded-full bg-[#029AB2]/30 blur-[110px]" />
-        {/* Center cyan-teal radiant glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[30rem] w-[30rem] rounded-full bg-[#06B6D4]/15 blur-[120px]" />
-        {/* Oceanic subtle pattern mesh */}
+        {/* Top-left deep royal blue aura */}
+        <div className="absolute -top-36 -left-24 h-[36rem] w-[36rem] rounded-full bg-[#0A3997]/30 blur-[110px]" />
+        {/* Bottom-right radiant turquoise aura */}
+        <div className="absolute -bottom-32 -right-20 h-[38rem] w-[38rem] rounded-full bg-[#00D2BC]/35 blur-[110px]" />
+        {/* Center azure transition aura */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[32rem] w-[32rem] rounded-full bg-[#0284A6]/20 blur-[120px]" />
+        {/* Subtle geometric dot matrix */}
         <div
           className="absolute inset-0 opacity-[0.035]"
           style={{
             backgroundImage:
-              'radial-gradient(#00D2BC 1px, transparent 1px), radial-gradient(#029AB2 1px, transparent 1px)',
+              'radial-gradient(#FFFFFF 1px, transparent 1px), radial-gradient(#00D2BC 1px, transparent 1px)',
             backgroundSize: '28px 28px',
             backgroundPosition: '0 0, 14px 14px',
           }}
@@ -249,42 +254,42 @@ export const LoginPage: React.FC = () => {
       </div>
 
       <div className="relative z-10 w-full max-w-[430px] space-y-3.5">
-        {/* On top: Professional Logo & ONLY "School Management System" */}
+        {/* On top: Professional Logo & ONLY "School Management System" in Ash White */}
         <div className="flex flex-col items-center justify-center text-center space-y-2.5">
-          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-[#00D2BC] via-[#029AB2] to-[#063BA1] text-white shadow-xl shadow-[#00D2BC]/30 ring-4 ring-white/20">
-            <GraduationCap className="h-8 w-8 text-white drop-shadow-sm" />
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/[0.12] text-[#F4F6F8] shadow-xl shadow-black/10 ring-2 ring-white/30 backdrop-blur-md">
+            <GraduationCap className="h-8 w-8 text-[#F4F6F8] drop-shadow-sm" />
           </div>
 
           <div>
-            <h1 className="text-2xl font-bold tracking-tight text-white sm:text-3xl drop-shadow-md">
+            <h1 className="text-2xl font-bold tracking-tight text-[#F4F6F8] sm:text-3xl drop-shadow-md">
               School Management System
             </h1>
           </div>
         </div>
 
-        {/* Login Card */}
-        <div className="rounded-2xl border border-white/30 bg-white/95 p-6 sm:p-7 shadow-[0_20px_60px_-10px_rgba(0,210,188,0.25)] backdrop-blur-md transition-all">
+        {/* Login Glassmorphic Card */}
+        <div className="rounded-2xl border border-white/20 bg-white/[0.10] p-6 sm:p-7 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.35)] backdrop-blur-xl transition-all">
           {/* Feedback Alerts */}
           {errorMessage && (
-            <div className="mb-4 flex items-start gap-2.5 rounded-xl border border-rose-200 bg-rose-50/90 p-3 text-xs text-rose-700 animate-in fade-in duration-200">
-              <AlertCircle className="h-4 w-4 shrink-0 text-rose-500 mt-0.5" />
+            <div className="mb-4 flex items-start gap-2.5 rounded-xl border border-rose-300/40 bg-rose-950/40 p-3 text-xs text-rose-200 animate-in fade-in duration-200 backdrop-blur-xs">
+              <AlertCircle className="h-4 w-4 shrink-0 text-rose-300 mt-0.5" />
               <span>{errorMessage}</span>
             </div>
           )}
 
           {successMessage && (
-            <div className="mb-4 flex items-start gap-2.5 rounded-xl border border-emerald-200 bg-emerald-50/90 p-3 text-xs text-emerald-700 animate-in fade-in duration-200">
-              <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-600 mt-0.5" />
+            <div className="mb-4 flex items-start gap-2.5 rounded-xl border border-emerald-300/40 bg-emerald-950/40 p-3 text-xs text-emerald-200 animate-in fade-in duration-200 backdrop-blur-xs">
+              <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-300 mt-0.5" />
               <span>{successMessage}</span>
             </div>
           )}
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-3.5">
-            {/* Field 1: Select School (with Super Admin in dropdown) */}
+            {/* Field 1: Select School (Credentials in Ash White) */}
             <div className="space-y-1.5">
-              <label htmlFor="school-select" className="flex items-center gap-1.5 text-xs font-semibold text-slate-700">
-                <Building2 className="h-3.5 w-3.5 text-[#029AB2]" />
+              <label htmlFor="school-select" className="flex items-center gap-1.5 text-xs font-semibold tracking-wide text-[#E2E8F0]">
+                <Building2 className="h-3.5 w-3.5 text-[#F4F6F8]" />
                 Select School
               </label>
               <div className="relative">
@@ -292,31 +297,31 @@ export const LoginPage: React.FC = () => {
                   id="school-select"
                   value={selectedSchool}
                   onChange={handleSchoolChange}
-                  className="w-full appearance-none rounded-xl border border-slate-200 bg-slate-50/70 hover:bg-slate-50 px-3.5 py-2.5 text-xs text-slate-800 font-medium transition focus:border-[#029AB2] focus:bg-white focus:outline-none focus:ring-4 focus:ring-[#029AB2]/15 cursor-pointer shadow-xs"
+                  className="w-full appearance-none rounded-xl border border-white/40 bg-[#F4F6F8] hover:bg-white px-3.5 py-2.5 text-xs text-slate-900 font-medium transition focus:border-[#00D2BC] focus:bg-white focus:outline-none focus:ring-4 focus:ring-white/20 cursor-pointer shadow-sm"
                 >
-                  <option value="super_admin" className="font-semibold text-[#029AB2] bg-white">
+                  <option value="super_admin" className="font-semibold text-slate-900 bg-white">
                     Super Admin
                   </option>
-                  <optgroup label="Registered Schools" className="font-medium text-slate-600 bg-white">
+                  <optgroup label="Registered Schools" className="font-medium text-slate-700 bg-white">
                     {schoolsList.map((school) => (
-                      <option key={school.id} value={school.id} className="text-slate-800 bg-white">
+                      <option key={school.id} value={school.id} className="text-slate-900 bg-white">
                         {school.name}
                       </option>
                     ))}
                   </optgroup>
                 </select>
-                <ChevronDown className="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                <ChevronDown className="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
               </div>
             </div>
 
-            {/* Field 2: Role (Admin, Principal, Teacher, Student, Parents) */}
+            {/* Field 2: Role (Credentials in Ash White) */}
             <div className="space-y-1.5">
-              <label htmlFor="role-select" className="flex items-center justify-between text-xs font-semibold text-slate-700">
+              <label htmlFor="role-select" className="flex items-center justify-between text-xs font-semibold tracking-wide text-[#E2E8F0]">
                 <span className="flex items-center gap-1.5">
-                  <Shield className="h-3.5 w-3.5 text-[#029AB2]" />
+                  <Shield className="h-3.5 w-3.5 text-[#F4F6F8]" />
                   Role
                 </span>
-                <span className="text-[10px] text-slate-500 font-normal">
+                <span className="text-[10px] text-[#CBD5E1] font-medium">
                   {selectedRole === 'admin' && selectedSchool === 'super_admin'
                     ? 'Super Admin Access'
                     : selectedRole === 'admin'
@@ -329,22 +334,22 @@ export const LoginPage: React.FC = () => {
                   id="role-select"
                   value={selectedRole}
                   onChange={handleRoleChange}
-                  className="w-full appearance-none rounded-xl border border-slate-200 bg-slate-50/70 hover:bg-slate-50 px-3.5 py-2.5 text-xs text-slate-800 font-medium transition focus:border-[#029AB2] focus:bg-white focus:outline-none focus:ring-4 focus:ring-[#029AB2]/15 cursor-pointer shadow-xs"
+                  className="w-full appearance-none rounded-xl border border-white/40 bg-[#F4F6F8] hover:bg-white px-3.5 py-2.5 text-xs text-slate-900 font-medium transition focus:border-[#00D2BC] focus:bg-white focus:outline-none focus:ring-4 focus:ring-white/20 cursor-pointer shadow-sm"
                 >
                   {ROLE_CHOICES.map((r) => (
-                    <option key={r.key} value={r.key} className="text-slate-800 bg-white">
+                    <option key={r.key} value={r.key} className="text-slate-900 bg-white">
                       {r.label}
                     </option>
                   ))}
                 </select>
-                <ChevronDown className="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                <ChevronDown className="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
               </div>
             </div>
 
-            {/* Field 3: Username */}
+            {/* Field 3: Username (Credentials in Ash White) */}
             <div className="space-y-1.5">
-              <label htmlFor="username-input" className="flex items-center gap-1.5 text-xs font-semibold text-slate-700">
-                <User className="h-3.5 w-3.5 text-[#029AB2]" />
+              <label htmlFor="username-input" className="flex items-center gap-1.5 text-xs font-semibold tracking-wide text-[#E2E8F0]">
+                <User className="h-3.5 w-3.5 text-[#F4F6F8]" />
                 Username
               </label>
               <div className="relative">
@@ -355,15 +360,15 @@ export const LoginPage: React.FC = () => {
                   onChange={(e) => setUsername(e.target.value)}
                   placeholder="Enter username"
                   required
-                  className="w-full rounded-xl border border-slate-200 bg-slate-50/70 hover:bg-slate-50 px-3.5 py-2.5 text-xs text-slate-900 placeholder-slate-400 font-medium transition focus:border-[#029AB2] focus:bg-white focus:outline-none focus:ring-4 focus:ring-[#029AB2]/15 shadow-xs"
+                  className="w-full rounded-xl border border-white/40 bg-[#F4F6F8] hover:bg-white px-3.5 py-2.5 text-xs text-slate-900 placeholder-slate-500 font-medium transition focus:border-[#00D2BC] focus:bg-white focus:outline-none focus:ring-4 focus:ring-white/20 shadow-sm"
                 />
               </div>
             </div>
 
-            {/* Field 4: Password */}
+            {/* Field 4: Password (Credentials in Ash White) */}
             <div className="space-y-1.5">
-              <label htmlFor="password-input" className="flex items-center gap-1.5 text-xs font-semibold text-slate-700">
-                <Lock className="h-3.5 w-3.5 text-[#029AB2]" />
+              <label htmlFor="password-input" className="flex items-center gap-1.5 text-xs font-semibold tracking-wide text-[#E2E8F0]">
+                <Lock className="h-3.5 w-3.5 text-[#F4F6F8]" />
                 Password
               </label>
               <div className="relative">
@@ -374,28 +379,28 @@ export const LoginPage: React.FC = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter password"
                   required
-                  className="w-full rounded-xl border border-slate-200 bg-slate-50/70 hover:bg-slate-50 px-3.5 py-2.5 pr-10 text-xs text-slate-900 placeholder-slate-400 font-medium transition focus:border-[#029AB2] focus:bg-white focus:outline-none focus:ring-4 focus:ring-[#029AB2]/15 shadow-xs"
+                  className="w-full rounded-xl border border-white/40 bg-[#F4F6F8] hover:bg-white px-3.5 py-2.5 pr-10 text-xs text-slate-900 placeholder-slate-500 font-medium transition focus:border-[#00D2BC] focus:bg-white focus:outline-none focus:ring-4 focus:ring-white/20 shadow-sm"
                 />
                 <button
                   type="button"
                   tabIndex={-1}
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition p-1 cursor-pointer"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-800 transition p-1 cursor-pointer"
                 >
                   {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </button>
               </div>
             </div>
 
-            {/* Submit Button */}
+            {/* Submit Button in Ash White */}
             <button
               type="submit"
               disabled={isSubmitting}
-              className="mt-2 flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#029AB2] via-[#00D2BC] to-[#063BA1] py-2.5 px-4 text-xs font-semibold text-white shadow-lg shadow-[#029AB2]/25 transition-all hover:opacity-95 hover:shadow-xl hover:shadow-[#00D2BC]/30 focus:outline-none focus:ring-4 focus:ring-[#00D2BC]/20 disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer active:scale-[0.99]"
+              className="mt-2 flex w-full items-center justify-center gap-2 rounded-xl bg-[#F4F6F8] hover:bg-white py-2.5 px-4 text-xs font-bold text-[#0A2E68] shadow-lg shadow-black/15 transition-all focus:outline-none focus:ring-4 focus:ring-white/30 disabled:cursor-not-allowed disabled:opacity-60 cursor-pointer active:scale-[0.99]"
             >
               {isSubmitting ? (
                 <>
-                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-[#0A2E68] border-t-transparent" />
                   <span>Authenticating...</span>
                 </>
               ) : (
@@ -408,23 +413,24 @@ export const LoginPage: React.FC = () => {
           </form>
         </div>
 
-        {/* Footer: Compact Operational Status & Powered By NEXORA */}
+        {/* Footer: Operational Status & Powered By NEXORA in Ash White */}
         <div className="flex flex-col items-center justify-center space-y-1.5 text-center">
-          <div className="flex items-center gap-1.5 text-[11px] text-cyan-100 font-medium drop-shadow-xs">
-            <span className="flex h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+          <div className="flex items-center gap-1.5 text-[11px] text-[#E2E8F0] font-medium drop-shadow-xs">
+            <span className="flex h-1.5 w-1.5 rounded-full bg-[#00D2BC] animate-pulse shadow-[0_0_8px_#00D2BC]" />
             <span>All Systems Operational</span>
-            <span className="text-cyan-300/60">&bull;</span>
+            <span className="text-[#CBD5E1]/60">&bull;</span>
             <span>Secure 256-bit Encryption</span>
           </div>
 
-          <div className="flex items-center justify-center gap-2 rounded-xl bg-white/95 px-3 py-1 shadow-xs border border-white/40 backdrop-blur-xs">
-            <span className="text-[11px] font-semibold text-slate-700 tracking-wide">
+          <div className="flex items-center justify-center gap-2 rounded-xl bg-white/[0.08] px-3 py-1 shadow-xs border border-white/20 backdrop-blur-xs">
+            <span className="text-[11px] font-semibold text-[#F4F6F8] tracking-wide">
               Powered By
             </span>
             <img
               src="/assets/aistudio/NEXORA_Technologies_Logo_290384d8.png"
               alt="NEXORA Technologies"
-              className="h-6 sm:h-6.5 w-auto max-w-[170px] object-contain drop-shadow-xs transition-transform hover:scale-105 duration-200"
+              style={{ filter: 'brightness(0) invert(0.96) drop-shadow(0 1px 2px rgba(0,0,0,0.25))' }}
+              className="h-6 sm:h-6.5 w-auto max-w-[170px] object-contain transition-transform hover:scale-105 duration-200"
             />
           </div>
         </div>
