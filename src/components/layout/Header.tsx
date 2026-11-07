@@ -59,57 +59,57 @@ export const Header: React.FC<HeaderProps> = ({
   const getRoleBadge = (role: UserRole) => {
     switch (role) {
       case 'super_admin':
-        return { label: 'Super Admin', bg: 'bg-purple-900/40 text-purple-300 border-purple-700/50' };
+        return { label: 'Super Admin', bg: 'bg-purple-50 text-purple-700 border-purple-200' };
       case 'school_admin':
-        return { label: 'School Admin', bg: 'bg-blue-900/40 text-blue-300 border-blue-700/50' };
+        return { label: 'School Admin', bg: 'bg-blue-50 text-blue-700 border-blue-200' };
       case 'principal':
-        return { label: 'Principal', bg: 'bg-emerald-900/40 text-emerald-300 border-emerald-700/50' };
+        return { label: 'Principal', bg: 'bg-emerald-50 text-emerald-700 border-emerald-200' };
       case 'teacher':
-        return { label: 'Teacher', bg: 'bg-amber-900/40 text-amber-300 border-amber-700/50' };
+        return { label: 'Teacher', bg: 'bg-amber-50 text-amber-700 border-amber-200' };
       case 'student':
-        return { label: 'Student', bg: 'bg-cyan-900/40 text-cyan-300 border-cyan-700/50' };
+        return { label: 'Student', bg: 'bg-cyan-50 text-cyan-700 border-cyan-200' };
       case 'parent':
-        return { label: 'Parent', bg: 'bg-rose-900/40 text-rose-300 border-rose-700/50' };
+        return { label: 'Parent', bg: 'bg-rose-50 text-rose-700 border-rose-200' };
       default:
-        return { label: role, bg: 'bg-zinc-800 text-zinc-300 border-zinc-700' };
+        return { label: role, bg: 'bg-slate-100 text-slate-700 border-slate-200' };
     }
   };
 
   const roleInfo = userProfile ? getRoleBadge(userProfile.role) : null;
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 w-full items-center justify-between border-b border-zinc-800 bg-zinc-950/90 px-4 backdrop-blur-md lg:px-6">
+    <header className="sticky top-0 z-30 flex h-16 w-full items-center justify-between border-b border-zinc-800 bg-black/95 px-4 backdrop-blur-md lg:px-6 shadow-sm text-white">
       {/* Left: School Identity / Super Admin Context */}
       <div className="flex items-center gap-3">
         {currentSchool ? (
           <div className="flex items-center gap-2.5">
             <div
-              className="flex h-9 w-9 items-center justify-center rounded-lg font-bold text-white shadow-sm ring-1 ring-white/20"
-              style={{ backgroundColor: currentSchool.branding?.primaryColor || '#1e3a8a' }}
+              className="flex h-9 w-9 items-center justify-center rounded-xl font-bold text-white shadow-sm ring-2 ring-zinc-700"
+              style={{ backgroundColor: currentSchool.branding?.primaryColor || '#063BA1' }}
             >
               <Building2 className="h-5 w-5" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-sm font-semibold text-zinc-100 line-clamp-1">
+                <span className="text-sm font-bold text-white line-clamp-1">
                   {currentSchool.name}
                 </span>
-                <span className="hidden rounded bg-zinc-800 px-1.5 py-0.5 text-[10px] font-medium text-zinc-300 sm:inline-block">
+                <span className="hidden rounded-md bg-zinc-900 border border-zinc-800 px-1.5 py-0.5 text-[10px] font-semibold text-zinc-300 sm:inline-block">
                   {currentSchool.code}
                 </span>
               </div>
               <p className="text-[11px] text-zinc-400">
-                Session: <span className="text-zinc-200">{currentSchool.activeSession}</span>
+                Session: <span className="text-zinc-200 font-semibold">{currentSchool.activeSession}</span>
               </p>
             </div>
           </div>
         ) : (
           <div className="flex items-center gap-2">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-indigo-600 font-bold text-white shadow-sm">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#063BA1] font-bold text-white shadow-sm">
               <ShieldAlert className="h-5 w-5" />
             </div>
             <div>
-              <span className="text-sm font-semibold text-zinc-100">Super Admin Global View</span>
+              <span className="text-sm font-bold text-white">Super Admin Global View</span>
               <p className="text-[11px] text-zinc-400">Multi-School Management</p>
             </div>
           </div>
@@ -120,15 +120,15 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="relative ml-2">
             <button
               onClick={() => setShowSchoolMenu(!showSchoolMenu)}
-              className="flex items-center gap-1.5 rounded-md border border-zinc-700 bg-zinc-900 px-2.5 py-1 text-xs text-zinc-300 hover:border-zinc-500 hover:text-white"
+              className="flex items-center gap-1.5 rounded-xl border border-zinc-800 bg-zinc-900 px-2.5 py-1 text-xs font-medium text-zinc-200 hover:border-zinc-700 hover:bg-zinc-800 hover:text-white transition shadow-xs cursor-pointer"
             >
               <span>Switch School</span>
               <ChevronDown className="h-3.5 w-3.5 text-zinc-400" />
             </button>
 
             {showSchoolMenu && (
-              <div className="absolute left-0 mt-1.5 w-64 rounded-lg border border-zinc-700 bg-zinc-900 p-1 shadow-xl ring-1 ring-black/50 z-50">
-                <div className="px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-zinc-400">
+              <div className="absolute left-0 mt-1.5 w-64 rounded-xl border border-zinc-800 bg-zinc-900 p-1.5 shadow-2xl z-50 animate-in fade-in zoom-in-95 duration-100">
+                <div className="px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-zinc-500">
                   Switch Active Tenant
                 </div>
                 {availableSchools.map((sch) => (
@@ -138,14 +138,14 @@ export const Header: React.FC<HeaderProps> = ({
                       switchSchool(sch.id);
                       setShowSchoolMenu(false);
                     }}
-                    className={`flex w-full items-center justify-between rounded px-2 py-1.5 text-left text-xs transition ${
+                    className={`flex w-full items-center justify-between rounded-lg px-2 py-1.5 text-left text-xs transition cursor-pointer ${
                       currentSchool?.id === sch.id
-                        ? 'bg-blue-600/20 text-blue-300 font-medium'
+                        ? 'bg-[#063BA1]/30 text-cyan-300 font-semibold border border-cyan-500/20'
                         : 'text-zinc-300 hover:bg-zinc-800 hover:text-white'
                     }`}
                   >
                     <span className="truncate">{sch.name}</span>
-                    <span className="text-[10px] text-zinc-400">{sch.code}</span>
+                    <span className="text-[10px] text-zinc-500 font-mono">{sch.code}</span>
                   </button>
                 ))}
               </div>
@@ -159,11 +159,11 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Gemini AI Copilot Trigger */}
         <button
           onClick={onOpenAI}
-          className="group relative flex items-center gap-2 rounded-lg border border-indigo-500/40 bg-gradient-to-r from-indigo-950/80 to-purple-950/80 px-3 py-1.5 text-xs font-medium text-indigo-200 shadow-sm transition hover:border-indigo-400 hover:from-indigo-900 hover:to-purple-900 hover:text-white"
+          className="group relative flex items-center gap-2 rounded-xl border border-indigo-500/40 bg-gradient-to-r from-indigo-950/80 to-purple-950/80 px-3 py-1.5 text-xs font-semibold text-indigo-200 shadow-xs transition hover:border-indigo-400 hover:text-white cursor-pointer"
         >
           <Sparkles className="h-4 w-4 text-indigo-400 animate-pulse" />
           <span className="hidden sm:inline">AI Copilot</span>
-          <span className="rounded bg-indigo-500/20 px-1 py-0.2 text-[10px] text-indigo-300 font-mono">
+          <span className="rounded bg-indigo-900/60 px-1 py-0.2 text-[10px] text-indigo-300 font-mono border border-indigo-500/30">
             Gemini
           </span>
         </button>
@@ -172,17 +172,17 @@ export const Header: React.FC<HeaderProps> = ({
         <div className="relative">
           <button
             onClick={() => setShowRoleMenu(!showRoleMenu)}
-            className="flex items-center gap-1.5 rounded-lg border border-zinc-700 bg-zinc-900 px-2.5 py-1.5 text-xs font-medium text-zinc-200 hover:border-zinc-600 hover:bg-zinc-800"
+            className="flex items-center gap-1.5 rounded-xl border border-zinc-800 bg-zinc-900 px-2.5 py-1.5 text-xs font-medium text-zinc-200 hover:border-zinc-700 hover:bg-zinc-800 hover:text-white transition shadow-xs cursor-pointer"
           >
             <UserCheck className="h-3.5 w-3.5 text-zinc-400" />
             <span className="hidden md:inline text-zinc-400">Role:</span>
-            <span className="font-semibold">{roleInfo?.label || 'Select'}</span>
+            <span className="font-semibold text-white">{roleInfo?.label || 'Select'}</span>
             <ChevronDown className="h-3 w-3 text-zinc-400" />
           </button>
 
           {showRoleMenu && (
-            <div className="absolute right-0 mt-1.5 w-56 rounded-lg border border-zinc-700 bg-zinc-900 p-1 shadow-2xl z-50">
-              <div className="px-2.5 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-zinc-400 border-b border-zinc-800">
+            <div className="absolute right-0 mt-1.5 w-56 rounded-xl border border-zinc-800 bg-zinc-900 p-1.5 shadow-2xl z-50 animate-in fade-in zoom-in-95 duration-100">
+              <div className="px-2.5 py-1.5 text-[10px] font-bold uppercase tracking-wider text-zinc-500 border-b border-zinc-800">
                 Switch Role Persona
               </div>
               <div className="py-1 space-y-0.5">
@@ -191,60 +191,60 @@ export const Header: React.FC<HeaderProps> = ({
                     quickLoginAsRole('super_admin');
                     setShowRoleMenu(false);
                   }}
-                  className="flex w-full items-center gap-2 rounded px-2 py-1.5 text-left text-xs text-purple-300 hover:bg-purple-950/50"
+                  className="flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-left text-xs text-purple-400 hover:bg-purple-950/40 transition cursor-pointer"
                 >
                   <ShieldAlert className="h-3.5 w-3.5" />
-                  <span>Super Admin (Global)</span>
+                  <span className="font-medium">Super Admin (Global)</span>
                 </button>
                 <button
                   onClick={() => {
                     quickLoginAsRole('school_admin');
                     setShowRoleMenu(false);
                   }}
-                  className="flex w-full items-center gap-2 rounded px-2 py-1.5 text-left text-xs text-blue-300 hover:bg-blue-950/50"
+                  className="flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-left text-xs text-blue-400 hover:bg-blue-950/40 transition cursor-pointer"
                 >
                   <Building2 className="h-3.5 w-3.5" />
-                  <span>School Admin</span>
+                  <span className="font-medium">School Admin</span>
                 </button>
                 <button
                   onClick={() => {
                     quickLoginAsRole('principal');
                     setShowRoleMenu(false);
                   }}
-                  className="flex w-full items-center gap-2 rounded px-2 py-1.5 text-left text-xs text-emerald-300 hover:bg-emerald-950/50"
+                  className="flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-left text-xs text-emerald-400 hover:bg-emerald-950/40 transition cursor-pointer"
                 >
                   <Briefcase className="h-3.5 w-3.5" />
-                  <span>Principal</span>
+                  <span className="font-medium">Principal</span>
                 </button>
                 <button
                   onClick={() => {
                     quickLoginAsRole('teacher');
                     setShowRoleMenu(false);
                   }}
-                  className="flex w-full items-center gap-2 rounded px-2 py-1.5 text-left text-xs text-amber-300 hover:bg-amber-950/50"
+                  className="flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-left text-xs text-amber-400 hover:bg-amber-950/40 transition cursor-pointer"
                 >
                   <GraduationCap className="h-3.5 w-3.5" />
-                  <span>Teacher</span>
+                  <span className="font-medium">Teacher</span>
                 </button>
                 <button
                   onClick={() => {
                     quickLoginAsRole('student');
                     setShowRoleMenu(false);
                   }}
-                  className="flex w-full items-center gap-2 rounded px-2 py-1.5 text-left text-xs text-cyan-300 hover:bg-cyan-950/50"
+                  className="flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-left text-xs text-cyan-400 hover:bg-cyan-950/40 transition cursor-pointer"
                 >
                   <Users className="h-3.5 w-3.5" />
-                  <span>Student</span>
+                  <span className="font-medium">Student</span>
                 </button>
                 <button
                   onClick={() => {
                     quickLoginAsRole('parent');
                     setShowRoleMenu(false);
                   }}
-                  className="flex w-full items-center gap-2 rounded px-2 py-1.5 text-left text-xs text-rose-300 hover:bg-rose-950/50"
+                  className="flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-left text-xs text-rose-400 hover:bg-rose-950/40 transition cursor-pointer"
                 >
                   <Users className="h-3.5 w-3.5" />
-                  <span>Parent</span>
+                  <span className="font-medium">Parent</span>
                 </button>
               </div>
             </div>
@@ -257,9 +257,9 @@ export const Header: React.FC<HeaderProps> = ({
           type="button"
           onClick={() => setShowChangePassword(true)}
           title="Change Account Password"
-          className="flex items-center gap-1.5 rounded-lg border border-zinc-700 bg-zinc-900/90 px-2.5 py-1.5 text-xs font-medium text-zinc-300 hover:border-blue-500/60 hover:bg-zinc-800 hover:text-white transition cursor-pointer shadow-sm"
+          className="flex items-center gap-1.5 rounded-xl border border-zinc-800 bg-zinc-900 px-2.5 py-1.5 text-xs font-semibold text-zinc-200 hover:border-zinc-700 hover:text-white hover:bg-zinc-800 transition cursor-pointer shadow-xs"
         >
-          <KeyRound className="h-3.5 w-3.5 text-blue-400" />
+          <KeyRound className="h-3.5 w-3.5 text-cyan-400" />
           <span className="hidden sm:inline">Change Password</span>
         </button>
 
@@ -268,9 +268,9 @@ export const Header: React.FC<HeaderProps> = ({
           onClick={handleSeed}
           disabled={seeding}
           title="Reset & Seed Sample School Data"
-          className="hidden lg:flex items-center gap-1 rounded-lg border border-zinc-700 bg-zinc-900 px-2 py-1.5 text-xs text-zinc-400 hover:border-zinc-600 hover:text-zinc-200"
+          className="hidden lg:flex items-center gap-1 rounded-xl border border-zinc-800 bg-zinc-900 px-2.5 py-1.5 text-xs font-medium text-zinc-400 hover:border-zinc-700 hover:text-white hover:bg-zinc-800 transition shadow-xs cursor-pointer"
         >
-          <RefreshCw className={`h-3.5 w-3.5 ${seeding ? 'animate-spin text-blue-400' : ''}`} />
+          <RefreshCw className={`h-3.5 w-3.5 ${seeding ? 'animate-spin text-cyan-400' : ''}`} />
           <span className="text-[11px]">Re-Seed</span>
         </button>
 
@@ -280,15 +280,15 @@ export const Header: React.FC<HeaderProps> = ({
             id="header-user-menu-btn"
             type="button"
             onClick={() => setShowUserMenu(!showUserMenu)}
-            className="flex items-center gap-2 rounded-full ring-1 ring-zinc-700 p-0.5 hover:ring-blue-500 transition cursor-pointer"
+            className="flex items-center gap-2 rounded-full ring-2 ring-zinc-700 hover:ring-zinc-500 p-0.5 transition cursor-pointer"
           >
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-tr from-zinc-800 to-zinc-700 text-xs font-bold text-zinc-100 shadow-inner">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-tr from-[#063BA1] to-[#029AB2] text-xs font-bold text-white shadow-xs">
               {userProfile?.name?.charAt(0) || 'U'}
             </div>
           </button>
 
           {showUserMenu && (
-            <div className="absolute right-0 mt-1.5 w-60 rounded-xl border border-zinc-700 bg-zinc-900 p-2 shadow-2xl z-50 animate-in fade-in zoom-in-95 duration-150">
+            <div className="absolute right-0 mt-1.5 w-60 rounded-xl border border-zinc-800 bg-zinc-900 p-2 shadow-2xl z-50 animate-in fade-in zoom-in-95 duration-150">
               <div className="border-b border-zinc-800 pb-2.5 px-2 pt-1">
                 <p className="text-xs font-bold text-white truncate">{userProfile?.name}</p>
                 <p className="text-[11px] text-zinc-400 truncate">{userProfile?.email}</p>
@@ -308,12 +308,12 @@ export const Header: React.FC<HeaderProps> = ({
                     setShowChangePassword(true);
                     setShowUserMenu(false);
                   }}
-                  className="flex w-full items-center gap-2 rounded-lg px-2.5 py-2 text-left text-xs text-zinc-200 hover:bg-blue-950/40 hover:text-blue-200 transition cursor-pointer"
+                  className="flex w-full items-center gap-2 rounded-lg px-2.5 py-2 text-left text-xs text-zinc-300 hover:bg-zinc-800 hover:text-white transition cursor-pointer"
                 >
-                  <KeyRound className="h-3.5 w-3.5 text-blue-400" />
+                  <KeyRound className="h-3.5 w-3.5 text-cyan-400" />
                   <div className="flex flex-col">
-                    <span className="font-medium">Change Password</span>
-                    <span className="text-[10px] text-zinc-400">Update security credentials</span>
+                    <span className="font-semibold">Change Password</span>
+                    <span className="text-[10px] text-zinc-500">Update security credentials</span>
                   </div>
                 </button>
 
@@ -325,12 +325,12 @@ export const Header: React.FC<HeaderProps> = ({
                     logout();
                     setShowUserMenu(false);
                   }}
-                  className="flex w-full items-center gap-2 rounded-lg px-2.5 py-2 text-left text-xs text-red-400 hover:bg-red-950/40 hover:text-red-300 transition cursor-pointer"
+                  className="flex w-full items-center gap-2 rounded-lg px-2.5 py-2 text-left text-xs text-rose-400 hover:bg-rose-950/40 hover:text-rose-300 transition cursor-pointer"
                 >
                   <LogOut className="h-3.5 w-3.5" />
                   <div className="flex flex-col">
-                    <span className="font-medium">Sign Out</span>
-                    <span className="text-[10px] text-zinc-400">End current session</span>
+                    <span className="font-semibold">Sign Out</span>
+                    <span className="text-[10px] text-zinc-500">End current session</span>
                   </div>
                 </button>
               </div>

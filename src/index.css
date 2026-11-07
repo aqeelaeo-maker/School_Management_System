@@ -1,1 +1,185 @@
 @import "tailwindcss";
+
+/* ==========================================================================
+   Milky White Workspace Theme for Remaining Application Area
+   ========================================================================== */
+.milky-theme {
+  background-color: #FAFAFA;
+  color: #1E293B;
+}
+
+/* Transform dark card backgrounds to clean crisp white on the milky canvas */
+.milky-theme .bg-zinc-950 {
+  background-color: #FAFAFA !important;
+}
+
+.milky-theme .bg-zinc-900,
+.milky-theme .bg-zinc-900\/90,
+.milky-theme .bg-zinc-900\/80,
+.milky-theme .bg-zinc-900\/70,
+.milky-theme .bg-zinc-900\/60,
+.milky-theme .bg-zinc-900\/50,
+.milky-theme .bg-zinc-900\/40,
+.milky-theme .bg-zinc-900\/30 {
+  background-color: #FFFFFF !important;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.04);
+}
+
+.milky-theme .border-zinc-800,
+.milky-theme .border-zinc-800\/80,
+.milky-theme .border-zinc-800\/90,
+.milky-theme .border-zinc-700,
+.milky-theme .border-zinc-700\/80 {
+  border-color: #E2E8F0 !important;
+}
+
+/* Neutralize dark gradient cards to clean subtle milky gradients */
+.milky-theme .bg-gradient-to-r.from-zinc-900,
+.milky-theme .bg-gradient-to-br.from-zinc-900 {
+  background: linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 100%) !important;
+  border-color: #E2E8F0 !important;
+}
+
+/* Typography contrast for milky white workspace */
+.milky-theme .text-white {
+  color: #0F172A !important;
+}
+
+.milky-theme .text-zinc-100 {
+  color: #1E293B !important;
+}
+
+.milky-theme .text-zinc-200 {
+  color: #334155 !important;
+}
+
+.milky-theme .text-zinc-300 {
+  color: #475569 !important;
+}
+
+.milky-theme .text-zinc-400 {
+  color: #64748B !important;
+}
+
+.milky-theme .text-zinc-500 {
+  color: #94A3B8 !important;
+}
+
+/* Form inputs & selects in milky theme */
+.milky-theme input:not([type="checkbox"]):not([type="radio"]),
+.milky-theme select,
+.milky-theme textarea {
+  background-color: #FFFFFF !important;
+  color: #0F172A !important;
+  border-color: #CBD5E1 !important;
+}
+
+.milky-theme input::placeholder,
+.milky-theme textarea::placeholder {
+  color: #94A3B8 !important;
+}
+
+/* Table styling in milky theme */
+.milky-theme table thead,
+.milky-theme thead {
+  background-color: #F8FAFC !important;
+  border-color: #E2E8F0 !important;
+}
+
+.milky-theme thead th {
+  color: #475569 !important;
+  border-bottom: 1px solid #E2E8F0 !important;
+}
+
+.milky-theme tbody tr {
+  border-color: #F1F5F9 !important;
+}
+
+.milky-theme tbody tr:hover {
+  background-color: #F8FAFC !important;
+}
+
+/* Preserve White text on primary CTA buttons */
+.milky-theme .bg-blue-600,
+.milky-theme .bg-blue-700,
+.milky-theme .bg-indigo-600,
+.milky-theme .bg-emerald-600,
+.milky-theme .bg-rose-600,
+.milky-theme .bg-purple-600,
+.milky-theme .bg-amber-600,
+.milky-theme .bg-[#063BA1] {
+  color: #FFFFFF !important;
+}
+
+.milky-theme .bg-blue-600 *,
+.milky-theme .bg-blue-700 *,
+.milky-theme .bg-indigo-600 *,
+.milky-theme .bg-emerald-600 *,
+.milky-theme .bg-rose-600 *,
+.milky-theme .bg-purple-600 *,
+.milky-theme .bg-amber-600 *,
+.milky-theme .bg-[#063BA1] * {
+  color: #FFFFFF !important;
+}
+
+/* Ensure vibrant colored badges and status text remain readable */
+.milky-theme .text-emerald-400,
+.milky-theme .text-emerald-500,
+.milky-theme .text-emerald-600 {
+  color: #059669 !important;
+}
+
+.milky-theme .text-blue-400,
+.milky-theme .text-blue-500,
+.milky-theme .text-blue-600 {
+  color: #2563EB !important;
+}
+
+.milky-theme .text-indigo-400,
+.milky-theme .text-indigo-500,
+.milky-theme .text-indigo-600 {
+  color: #4F46E5 !important;
+}
+
+.milky-theme .text-amber-400,
+.milky-theme .text-amber-500,
+.milky-theme .text-amber-600 {
+  color: #D97706 !important;
+}
+
+.milky-theme .text-rose-400,
+.milky-theme .text-rose-500,
+.milky-theme .text-rose-600 {
+  color: #E11D48 !important;
+}
+
+.milky-theme .text-purple-400,
+.milky-theme .text-purple-500,
+.milky-theme .text-purple-600 {
+  color: #7C3AED !important;
+}
+
+.milky-theme .text-cyan-400,
+.milky-theme .text-cyan-500,
+.milky-theme .text-cyan-600 {
+  color: #0891B2 !important;
+}
+
+/* Custom scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 9999px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}

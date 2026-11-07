@@ -19,7 +19,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
   const [aiModalOpen, setAiModalOpen] = useState(false);
 
   return (
-    <div className="flex min-h-screen bg-zinc-950 text-zinc-100 font-sans antialiased selection:bg-blue-600 selection:text-white">
+    <div className="flex min-h-screen bg-[#FAFAFA] text-slate-800 font-sans antialiased selection:bg-[#063BA1] selection:text-white">
       {/* Sidebar navigation */}
       <Sidebar
         activeTab={activeTab}
@@ -29,13 +29,14 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
       />
 
       {/* Main Content Area */}
-      <div className="flex flex-1 flex-col min-w-0">
-        {/* Top bar */}
-        <div className="flex items-center">
+      <div className="flex flex-1 flex-col min-w-0 bg-[#FAFAFA]">
+        {/* Top bar (Black top panel) */}
+        <div className="flex items-center bg-black border-b border-zinc-800">
           {/* Mobile menu trigger */}
           <button
             onClick={() => setSidebarOpen(true)}
-            className="p-3 text-zinc-400 hover:text-white lg:hidden border-b border-zinc-800 bg-zinc-950 transition"
+            aria-label="Open navigation menu"
+            className="p-3 text-zinc-400 hover:text-white lg:hidden border-b border-zinc-800 bg-black transition cursor-pointer"
           >
             <Menu className="h-5 w-5" />
           </button>
@@ -46,9 +47,9 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
           </div>
         </div>
 
-        {/* Dynamic page content */}
-        <div className="flex flex-1 overflow-hidden">
-          <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 custom-scrollbar">
+        {/* Dynamic page content (Milky white workspace) */}
+        <div className="flex flex-1 overflow-hidden bg-[#FAFAFA]">
+          <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 custom-scrollbar milky-theme bg-[#FAFAFA] text-slate-800">
             <div className="mx-auto max-w-7xl">{children}</div>
           </main>
         </div>

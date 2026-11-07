@@ -1,5 +1,6 @@
 import React from 'react';
 import { useAuth } from '../../contexts/AuthContext';
+import { ClastMark } from '../common/ClastLogo';
 import {
   LayoutDashboard,
   Building2,
@@ -137,26 +138,24 @@ export const Sidebar: React.FC<SidebarProps> = ({
       )}
 
       <aside
-        className={`fixed top-0 bottom-0 left-0 z-50 flex w-64 flex-col border-r border-zinc-800 bg-zinc-950 text-zinc-100 transition-transform duration-200 ease-in-out lg:static lg:translate-x-0 ${
+        className={`fixed top-0 bottom-0 left-0 z-50 flex w-64 flex-col border-r border-zinc-800/90 bg-black text-zinc-100 transition-transform duration-200 ease-in-out lg:static lg:translate-x-0 ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         {/* Brand Banner */}
-        <div className="flex h-16 items-center gap-2.5 border-b border-zinc-800 bg-zinc-950 px-5">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-tr from-blue-600 to-indigo-600 text-white font-black shadow-md">
-            <Building2 className="h-5 w-5" />
-          </div>
-          <div>
-            <h1 className="text-sm font-bold tracking-tight text-white">EduSphere ERP</h1>
-            <p className="text-[10px] uppercase tracking-wider text-zinc-400 font-semibold">
-              Multi-School SaaS
+        <div className="flex h-16 items-center gap-2.5 border-b border-zinc-800/90 bg-black px-4">
+          <ClastMark className="h-8 w-8 shrink-0 shadow-sm" />
+          <div className="min-w-0">
+            <h1 className="text-xs font-bold tracking-tight text-white truncate">School Management System</h1>
+            <p className="text-[10px] tracking-wider text-[#00D2BC] font-semibold truncate">
+              Clast Educational ERP
             </p>
           </div>
         </div>
 
         {/* Navigation list */}
-        <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-4 custom-scrollbar bg-zinc-950">
-          <div className="px-2 pb-2 text-[10px] font-semibold uppercase tracking-wider text-zinc-400">
+        <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-4 custom-scrollbar bg-black">
+          <div className="px-2 pb-2 text-[10px] font-bold uppercase tracking-wider text-zinc-500">
             {role.replace('_', ' ')} Portal
           </div>
           {navItems.map((item) => {
@@ -169,22 +168,22 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   setActiveTab(item.id);
                   onClose();
                 }}
-                className={`group flex w-full items-center justify-between rounded-lg px-3 py-2 text-xs font-medium transition ${
+                className={`group flex w-full items-center justify-between rounded-xl px-3 py-2 text-xs font-medium transition cursor-pointer ${
                   isActive
-                    ? 'bg-blue-600/15 text-blue-400 ring-1 ring-blue-500/30 font-semibold'
-                    : 'text-zinc-400 hover:bg-zinc-900 hover:text-zinc-200'
+                    ? 'bg-gradient-to-r from-[#063BA1] via-[#029AB2] to-[#00D2BC] text-white font-semibold shadow-md border border-cyan-500/20'
+                    : 'text-zinc-400 hover:bg-zinc-900/90 hover:text-white'
                 }`}
               >
                 <div className="flex items-center gap-3">
                   <Icon
                     className={`h-4 w-4 transition ${
-                      isActive ? 'text-blue-400' : 'text-zinc-500 group-hover:text-zinc-300'
+                      isActive ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'
                     }`}
                   />
                   <span>{item.label}</span>
                 </div>
                 {item.badge && (
-                  <span className="rounded bg-blue-500/20 px-1.5 py-0.5 text-[10px] font-semibold text-blue-300">
+                  <span className="rounded-md border border-zinc-700 bg-zinc-800 px-1.5 py-0.5 text-[10px] font-semibold text-zinc-200">
                     {item.badge}
                   </span>
                 )}
@@ -194,8 +193,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </nav>
 
         {/* Footer info & Logout */}
-        <div className="border-t border-zinc-800/80 bg-zinc-950 p-3 space-y-2">
-          <div className="rounded-lg bg-zinc-900/60 p-2.5 border border-zinc-800">
+        <div className="border-t border-zinc-800/90 bg-black p-3 space-y-2">
+          <div className="rounded-xl bg-zinc-950 p-2.5 border border-zinc-800/90 shadow-xs">
             <div className="flex items-center justify-between">
               <span className="text-[10px] font-medium text-zinc-400">Database Status</span>
               <span className="flex items-center gap-1 text-[10px] font-semibold text-emerald-400">
@@ -203,14 +202,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 Connected
               </span>
             </div>
-            <p className="mt-1 text-[10px] text-zinc-400 truncate">
+            <p className="mt-1 text-[10px] text-zinc-300 font-medium truncate">
               {currentSchool ? currentSchool.name : 'Multi-Tenant Firestore'}
             </p>
           </div>
 
           <button
             onClick={() => logout()}
-            className="flex w-full items-center justify-center gap-2 rounded-lg border border-zinc-800 bg-zinc-900/80 py-2 px-3 text-xs font-semibold text-zinc-400 hover:border-red-900/60 hover:bg-red-950/30 hover:text-red-300 transition"
+            className="flex w-full items-center justify-center gap-2 rounded-xl border border-zinc-800 bg-zinc-900 py-2 px-3 text-xs font-semibold text-zinc-200 hover:border-rose-900/60 hover:bg-rose-950/40 hover:text-rose-300 transition shadow-xs cursor-pointer"
           >
             <LogOut className="h-3.5 w-3.5" />
             <span>Sign Out / Switch</span>

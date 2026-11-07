@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { UserRole } from '../../types';
+import { ClastEmblem, ClastLogo } from '../../components/common/ClastLogo';
 import {
   Building2,
   Shield,
@@ -12,54 +13,9 @@ import {
   CheckCircle2,
   ChevronDown,
   ArrowRight,
+  Sparkles,
+  Check,
 } from 'lucide-react';
-
-// Professional Emblem Logo for School Management System
-const SchoolSystemLogo: React.FC<{ className?: string }> = ({ className = 'h-16 w-16' }) => (
-  <div
-    className={`relative flex items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 via-indigo-600 to-violet-700 shadow-xl shadow-indigo-500/25 ring-1 ring-white/20 p-2.5 ${className}`}
-  >
-    <svg viewBox="0 0 48 48" fill="none" className="h-full w-full" xmlns="http://www.w3.org/2000/svg">
-      {/* Outer shield crest outline */}
-      <path
-        d="M24 4L8 10V22C8 32.5 14.8 41.8 24 44C33.2 41.8 40 32.5 40 22V10L24 4Z"
-        fill="currentColor"
-        className="text-indigo-950/40"
-        stroke="white"
-        strokeWidth="2.2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      {/* Mortarboard / Graduation Cap */}
-      <path
-        d="M24 13L34 18L24 23L14 18L24 13Z"
-        fill="white"
-      />
-      <path
-        d="M17.5 20.8V26C17.5 28.5 20.4 30.5 24 30.5C27.6 30.5 30.5 28.5 30.5 26V20.8"
-        stroke="white"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-      {/* Cap Tassel */}
-      <path
-        d="M32 19V25C32 25.8 32.7 26.5 33.5 26.5C34.3 26.5 35 25.8 35 25V19.5"
-        stroke="#FCD34D"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-      />
-      {/* Open Book pages at bottom */}
-      <path
-        d="M18 34.5C20.5 33.5 22.5 34 24 35C25.5 34 27.5 33.5 30 34.5"
-        stroke="#93C5FD"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-      {/* Center Star of Academic Excellence */}
-      <circle cx="24" cy="27" r="1.5" fill="#FCD34D" />
-    </svg>
-  </div>
-);
 
 // Fallback school list in case Firestore is still initializing
 const DEFAULT_SCHOOLS = [
@@ -191,7 +147,7 @@ export const LoginPage: React.FC = () => {
       }
     } else {
       // For Principal, Teacher, Student, Parents:
-      // If the school was currently 'super_admin', switch to first registered campus school
+      // If school was 'super_admin', switch to first registered campus school
       if (selectedSchool === 'super_admin') {
         const firstSchool = schoolsList.find((s) => s.id !== 'super_admin')?.id || 'sch_beacon_01';
         setSelectedSchool(firstSchool);
@@ -271,35 +227,53 @@ export const LoginPage: React.FC = () => {
   const currentRoleInfo = ROLE_CHOICES.find((r) => r.key === selectedRole) || ROLE_CHOICES[0];
 
   return (
-    <div className="flex min-h-screen w-full flex-col items-center justify-center bg-zinc-950 p-4 text-zinc-100 selection:bg-blue-600 selection:text-white">
-      {/* Background Subtle Accent Gradients */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute -top-32 left-1/2 -translate-x-1/2 h-96 w-[40rem] rounded-full bg-gradient-to-tr from-blue-600/10 via-indigo-600/10 to-violet-600/10 blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 h-80 w-80 rounded-full bg-indigo-600/5 blur-3xl" />
+    <div className="relative flex min-h-screen w-full flex-col items-center justify-center bg-[#FAFAFA] p-4 text-slate-800 antialiased selection:bg-[#063BA1] selection:text-white overflow-hidden">
+      {/* Clast.io Signature Ambient Background Gradients */}
+      <div className="pointer-events-none fixed inset-0 overflow-hidden">
+        {/* Soft top gradient orb */}
+        <div className="absolute -top-32 left-1/2 -translate-x-1/2 h-[32rem] w-[52rem] rounded-full bg-gradient-to-tr from-[#063BA1]/8 via-[#029AB2]/8 to-[#00D2BC]/6 blur-3xl" />
+        {/* Bottom accent glow */}
+        <div className="absolute -bottom-24 right-1/4 h-96 w-96 rounded-full bg-[#635BFF]/5 blur-3xl" />
+        {/* Modern subtle tech grid */}
+        <div
+          className="absolute inset-0 opacity-[0.025]"
+          style={{
+            backgroundImage:
+              'radial-gradient(#063BA1 1px, transparent 1px), radial-gradient(#063BA1 1px, #FAFAFA 1px)',
+            backgroundSize: '32px 32px',
+            backgroundPosition: '0 0, 16px 16px',
+          }}
+        />
       </div>
 
-      <div className="relative z-10 w-full max-w-md space-y-6">
-        {/* On top: Professional Logo & ONLY "School Management System" */}
+      <div className="relative z-10 w-full max-w-[440px] space-y-6">
+        {/* On top: Clast.io Professional Logo & ONLY "School Management System" */}
         <div className="flex flex-col items-center justify-center text-center space-y-3">
-          <SchoolSystemLogo className="h-16 w-16" />
-          <h1 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
-            School Management System
-          </h1>
+          <ClastEmblem className="h-16 w-16" />
+
+          <div className="space-y-1">
+            <h1 className="text-2xl font-bold tracking-tight text-[#063BA1] sm:text-3xl">
+              School Management System
+            </h1>
+            <p className="text-xs font-medium text-slate-500">
+              Next-Gen Institutional ERP &amp; Academic Intelligence
+            </p>
+          </div>
         </div>
 
-        {/* Login Card */}
-        <div className="rounded-2xl border border-zinc-800 bg-zinc-900/90 p-6 sm:p-8 shadow-2xl backdrop-blur-xl">
+        {/* Login Card Styled in Clast.io Theme */}
+        <div className="rounded-2xl border border-gray-200/90 bg-white p-6 sm:p-8 shadow-[0_10px_35px_-4px_rgba(6,59,161,0.08)] backdrop-blur-sm transition-all">
           {/* Feedback Alerts */}
           {errorMessage && (
-            <div className="mb-5 flex items-start gap-2.5 rounded-xl border border-rose-800/60 bg-rose-950/40 p-3 text-xs text-rose-300">
-              <AlertCircle className="h-4 w-4 shrink-0 text-rose-400 mt-0.5" />
+            <div className="mb-5 flex items-start gap-2.5 rounded-xl border border-rose-200 bg-rose-50/90 p-3 text-xs text-rose-700 animate-in fade-in duration-200">
+              <AlertCircle className="h-4 w-4 shrink-0 text-rose-500 mt-0.5" />
               <span>{errorMessage}</span>
             </div>
           )}
 
           {successMessage && (
-            <div className="mb-5 flex items-start gap-2.5 rounded-xl border border-emerald-800/60 bg-emerald-950/40 p-3 text-xs text-emerald-300">
-              <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400 mt-0.5" />
+            <div className="mb-5 flex items-start gap-2.5 rounded-xl border border-emerald-200 bg-emerald-50/90 p-3 text-xs text-emerald-700 animate-in fade-in duration-200">
+              <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-600 mt-0.5" />
               <span>{successMessage}</span>
             </div>
           )}
@@ -308,8 +282,8 @@ export const LoginPage: React.FC = () => {
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Field 1: Select School (with Super Admin in dropdown) */}
             <div className="space-y-1.5">
-              <label htmlFor="school-select" className="flex items-center gap-1.5 text-xs font-semibold text-zinc-300">
-                <Building2 className="h-3.5 w-3.5 text-indigo-400" />
+              <label htmlFor="school-select" className="flex items-center gap-1.5 text-xs font-semibold text-slate-700">
+                <Building2 className="h-3.5 w-3.5 text-[#063BA1]" />
                 Select School
               </label>
               <div className="relative">
@@ -317,31 +291,31 @@ export const LoginPage: React.FC = () => {
                   id="school-select"
                   value={selectedSchool}
                   onChange={handleSchoolChange}
-                  className="w-full appearance-none rounded-xl border border-zinc-700 bg-zinc-950 px-3.5 py-2.5 text-xs text-white shadow-inner transition focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 font-medium cursor-pointer"
+                  className="w-full appearance-none rounded-xl border border-slate-200 bg-slate-50/60 hover:bg-slate-50 px-3.5 py-2.5 text-xs text-slate-800 font-medium transition focus:border-[#063BA1] focus:bg-white focus:outline-none focus:ring-4 focus:ring-[#063BA1]/10 cursor-pointer shadow-xs"
                 >
-                  <option value="super_admin" className="bg-zinc-900 text-purple-300 font-semibold">
+                  <option value="super_admin" className="font-semibold text-[#063BA1] bg-white">
                     Super Admin
                   </option>
-                  <optgroup label="Registered Schools" className="bg-zinc-900 text-zinc-300 font-medium">
+                  <optgroup label="Registered Schools" className="font-medium text-slate-600 bg-white">
                     {schoolsList.map((school) => (
-                      <option key={school.id} value={school.id} className="bg-zinc-900 text-white">
+                      <option key={school.id} value={school.id} className="text-slate-800 bg-white">
                         {school.name}
                       </option>
                     ))}
                   </optgroup>
                 </select>
-                <ChevronDown className="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" />
+                <ChevronDown className="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
               </div>
             </div>
 
             {/* Field 2: Role (Admin, Principal, Teacher, Student, Parents) */}
             <div className="space-y-1.5">
-              <label htmlFor="role-select" className="flex items-center justify-between text-xs font-semibold text-zinc-300">
+              <label htmlFor="role-select" className="flex items-center justify-between text-xs font-semibold text-slate-700">
                 <span className="flex items-center gap-1.5">
-                  <Shield className="h-3.5 w-3.5 text-indigo-400" />
+                  <Shield className="h-3.5 w-3.5 text-[#063BA1]" />
                   Role
                 </span>
-                <span className="text-[10px] text-zinc-400 font-normal">
+                <span className="text-[10px] text-slate-500 font-normal">
                   {selectedRole === 'admin' && selectedSchool === 'super_admin'
                     ? 'Super Admin Access'
                     : selectedRole === 'admin'
@@ -354,26 +328,26 @@ export const LoginPage: React.FC = () => {
                   id="role-select"
                   value={selectedRole}
                   onChange={handleRoleChange}
-                  className="w-full appearance-none rounded-xl border border-zinc-700 bg-zinc-950 px-3.5 py-2.5 text-xs text-white shadow-inner transition focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 font-medium cursor-pointer"
+                  className="w-full appearance-none rounded-xl border border-slate-200 bg-slate-50/60 hover:bg-slate-50 px-3.5 py-2.5 text-xs text-slate-800 font-medium transition focus:border-[#063BA1] focus:bg-white focus:outline-none focus:ring-4 focus:ring-[#063BA1]/10 cursor-pointer shadow-xs"
                 >
                   {ROLE_CHOICES.map((r) => (
-                    <option key={r.key} value={r.key} className="bg-zinc-900 text-white">
+                    <option key={r.key} value={r.key} className="text-slate-800 bg-white">
                       {r.label}
                     </option>
                   ))}
                 </select>
-                <ChevronDown className="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" />
+                <ChevronDown className="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
               </div>
             </div>
 
             {/* Field 3: Username */}
             <div className="space-y-1.5">
-              <label htmlFor="username-input" className="flex items-center justify-between text-xs font-semibold text-zinc-300">
+              <label htmlFor="username-input" className="flex items-center justify-between text-xs font-semibold text-slate-700">
                 <span className="flex items-center gap-1.5">
-                  <User className="h-3.5 w-3.5 text-indigo-400" />
+                  <User className="h-3.5 w-3.5 text-[#063BA1]" />
                   Username
                 </span>
-                <span className="text-[10px] text-zinc-400 font-normal font-mono">
+                <span className="text-[10px] text-slate-500 font-mono font-normal">
                   Default: {selectedSchool === 'super_admin' ? 'Admin' : currentRoleInfo.defaultUser}
                 </span>
               </label>
@@ -389,19 +363,19 @@ export const LoginPage: React.FC = () => {
                       : currentRoleInfo.placeholder
                   }
                   required
-                  className="w-full rounded-xl border border-zinc-700 bg-zinc-950 px-3.5 py-2.5 text-xs text-white placeholder-zinc-500 shadow-inner transition focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 font-medium"
+                  className="w-full rounded-xl border border-slate-200 bg-slate-50/60 hover:bg-slate-50 px-3.5 py-2.5 text-xs text-slate-900 placeholder-slate-400 font-medium transition focus:border-[#063BA1] focus:bg-white focus:outline-none focus:ring-4 focus:ring-[#063BA1]/10 shadow-xs"
                 />
               </div>
             </div>
 
             {/* Field 4: Password */}
             <div className="space-y-1.5">
-              <label htmlFor="password-input" className="flex items-center justify-between text-xs font-semibold text-zinc-300">
+              <label htmlFor="password-input" className="flex items-center justify-between text-xs font-semibold text-slate-700">
                 <span className="flex items-center gap-1.5">
-                  <Lock className="h-3.5 w-3.5 text-indigo-400" />
+                  <Lock className="h-3.5 w-3.5 text-[#063BA1]" />
                   Password
                 </span>
-                <span className="text-[10px] text-indigo-300 font-mono">
+                <span className="text-[10px] text-[#063BA1] font-mono font-medium">
                   Default: {selectedSchool === 'super_admin' ? 'Admin' : currentRoleInfo.defaultPass}
                 </span>
               </label>
@@ -413,38 +387,45 @@ export const LoginPage: React.FC = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter password"
                   required
-                  className="w-full rounded-xl border border-zinc-700 bg-zinc-950 px-3.5 py-2.5 pr-10 text-xs text-white placeholder-zinc-500 shadow-inner transition focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 font-medium"
+                  className="w-full rounded-xl border border-slate-200 bg-slate-50/60 hover:bg-slate-50 px-3.5 py-2.5 pr-10 text-xs text-slate-900 placeholder-slate-400 font-medium transition focus:border-[#063BA1] focus:bg-white focus:outline-none focus:ring-4 focus:ring-[#063BA1]/10 shadow-xs"
                 />
                 <button
                   type="button"
                   tabIndex={-1}
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-200"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition p-1"
                 >
                   {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </button>
               </div>
             </div>
 
-            {/* Helper Notice Banner */}
-            <div className="rounded-xl border border-blue-900/40 bg-blue-950/20 px-3 py-2 text-[11px] text-blue-200/90 flex items-start gap-2">
-              <Shield className="h-3.5 w-3.5 text-blue-400 shrink-0 mt-0.5" />
-              <span>
+            {/* Clast.io Signature Credential Notice Banner */}
+            <div className="rounded-xl border border-[#CFCCFF] bg-[#EFEFFF]/70 px-3.5 py-2.5 text-[11px] text-[#2A266B] flex items-start gap-2.5 transition">
+              <Shield className="h-3.5 w-3.5 text-[#635BFF] shrink-0 mt-0.5" />
+              <div className="leading-relaxed">
                 {selectedSchool === 'super_admin' || (selectedRole === 'admin' && username === 'Admin') ? (
-                  <>
-                    <strong>Super Admin Credentials:</strong> Username <code className="text-white font-mono bg-blue-900/50 px-1 py-0.5 rounded">Admin</code> &bull; Password <code className="text-white font-mono bg-blue-900/50 px-1 py-0.5 rounded">Admin</code>
-                  </>
+                  <span>
+                    <strong>Super Admin Credentials:</strong> Username{' '}
+                    <code className="bg-white px-1.5 py-0.5 rounded border border-[#CFCCFF] font-mono font-bold text-[#063BA1]">
+                      Admin
+                    </code>{' '}
+                    &bull; Password{' '}
+                    <code className="bg-white px-1.5 py-0.5 rounded border border-[#CFCCFF] font-mono font-bold text-[#063BA1]">
+                      Admin
+                    </code>
+                  </span>
                 ) : (
                   <span>{currentRoleInfo.hint}</span>
                 )}
-              </span>
+              </div>
             </div>
 
-            {/* Submit Button */}
+            {/* Clast Gradient Submit Button */}
             <button
               type="submit"
               disabled={isSubmitting}
-              className="mt-2 flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 py-2.5 px-4 text-xs font-semibold text-white shadow-lg shadow-blue-600/30 transition hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-zinc-900 disabled:cursor-not-allowed disabled:opacity-50"
+              className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#063BA1] via-[#029AB2] to-[#00D2BC] py-2.5 px-4 text-xs font-semibold text-white shadow-lg shadow-[#063BA1]/20 transition-all hover:opacity-95 hover:shadow-xl hover:shadow-[#063BA1]/30 focus:outline-none focus:ring-4 focus:ring-[#063BA1]/20 disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer active:scale-[0.99]"
             >
               {isSubmitting ? (
                 <>
@@ -453,12 +434,27 @@ export const LoginPage: React.FC = () => {
                 </>
               ) : (
                 <>
-                  <span>Login</span>
+                  <span>Sign In to School System</span>
                   <ArrowRight className="h-4 w-4" />
                 </>
               )}
             </button>
           </form>
+        </div>
+
+        {/* Footer Brand Credit & Status */}
+        <div className="flex flex-col items-center justify-center space-y-1.5 text-center text-[11px] text-slate-500">
+          <div className="flex items-center gap-2">
+            <span className="flex h-2 w-2 rounded-full bg-emerald-500" />
+            <span className="font-medium text-slate-600">All Systems Operational</span>
+            <span>&bull;</span>
+            <span>Secure 256-bit Encryption</span>
+          </div>
+          <div className="flex items-center gap-1.5 text-slate-400">
+            <span>Powered by</span>
+            <ClastLogo className="h-3.5 w-auto inline-block opacity-80" />
+            <span>Architecture</span>
+          </div>
         </div>
       </div>
     </div>
