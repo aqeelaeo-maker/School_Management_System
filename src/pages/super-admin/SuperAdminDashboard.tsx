@@ -162,26 +162,25 @@ export const SuperAdminDashboard: React.FC<SuperAdminDashboardProps> = ({ onNavi
         </div>
 
         {/* Chart 2: Fee Collections vs Dues (Right Side Panel) */}
-        <div className="rounded-xl border border-zinc-300 bg-[#F7F7F7] p-4 text-zinc-900 shadow-sm">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-800 mb-3">
+        <div className="rounded-xl border border-zinc-800 bg-zinc-900/60 p-4">
+          <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-300 mb-3">
             Institutional Fee Recovery Comparison ($)
           </h3>
           <div className="h-64 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={revenueData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e4e4e7" />
-                <XAxis dataKey="name" stroke="#52525b" fontSize={11} />
-                <YAxis stroke="#52525b" fontSize={11} />
+                <CartesianGrid strokeDasharray="3 3" stroke="#27272a" />
+                <XAxis dataKey="name" stroke="#71717a" fontSize={11} />
+                <YAxis stroke="#71717a" fontSize={11} />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: '#ffffff',
-                    borderColor: '#d4d4d8',
+                    backgroundColor: '#18181b',
+                    borderColor: '#3f3f46',
                     borderRadius: '8px',
                     fontSize: '12px',
-                    color: '#18181b',
                   }}
                 />
-                <Legend wrapperStyle={{ fontSize: '11px', color: '#3f3f46' }} />
+                <Legend wrapperStyle={{ fontSize: '11px' }} />
                 <Bar dataKey="collected" fill="#059669" name="Collected ($)" radius={[4, 4, 0, 0]} />
                 <Bar dataKey="pending" fill="#e11d48" name="Pending ($)" radius={[4, 4, 0, 0]} />
               </BarChart>

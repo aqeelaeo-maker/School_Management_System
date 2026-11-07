@@ -71,15 +71,41 @@ const AppContent: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="flex h-screen w-screen flex-col items-center justify-center bg-zinc-950 text-white">
-        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 shadow-xl shadow-blue-500/20 animate-bounce">
-          <Building2 className="h-6 w-6 text-white" />
+      <div
+        className="relative flex h-screen w-screen flex-col items-center justify-center text-white overflow-hidden"
+        style={{
+          background: 'linear-gradient(135deg, #0A2E68 0%, #064E78 35%, #027A8F 70%, #00D2BC 100%)',
+        }}
+      >
+        {/* Blue-to-Turquoise Ambient Lighting Mesh */}
+        <div className="pointer-events-none fixed inset-0 overflow-hidden">
+          <div className="absolute -top-36 -left-24 h-[36rem] w-[36rem] rounded-full bg-[#0A3997]/30 blur-[110px]" />
+          <div className="absolute -bottom-32 -right-20 h-[38rem] w-[38rem] rounded-full bg-[#00D2BC]/35 blur-[110px]" />
         </div>
-        <div className="mt-4 flex items-center gap-2 text-sm font-semibold text-zinc-300">
-          <RefreshCw className="h-4 w-4 animate-spin text-blue-400" />
-          <span>Initializing EduSphere Multi-School Cloud...</span>
+
+        <div className="relative z-10 flex flex-col items-center text-center">
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/[0.12] text-[#F4F6F8] shadow-xl ring-2 ring-white/30 backdrop-blur-md animate-bounce">
+            <Building2 className="h-7 w-7 text-[#F4F6F8]" />
+          </div>
+          <div className="mt-4 flex items-center gap-2 text-sm font-semibold text-[#F4F6F8]">
+            <RefreshCw className="h-4 w-4 animate-spin text-[#00D2BC]" />
+            <span>Initializing School Management System...</span>
+          </div>
+          <p className="mt-1 text-xs text-[#CBD5E1]">Loading Tenant Partitioning & Auth States</p>
+
+          {/* Powered By Logo in Loading Screen */}
+          <div className="mt-8 flex items-center justify-center gap-2 rounded-xl bg-white/[0.08] px-3.5 py-1.5 shadow-sm border border-white/20 backdrop-blur-xs">
+            <span className="text-xs font-semibold text-[#F4F6F8] tracking-wide">
+              Powered By
+            </span>
+            <img
+              src="/assets/aistudio/NEXORA_Technologies_Logo_290384d8.png"
+              alt="NEXORA Technologies"
+              style={{ filter: 'brightness(0) invert(0.96) drop-shadow(0 1px 2px rgba(0,0,0,0.25))' }}
+              className="h-6 w-auto max-w-[160px] object-contain"
+            />
+          </div>
         </div>
-        <p className="mt-1 text-xs text-zinc-500 font-mono">Loading Tenant Partitioning & Auth States</p>
       </div>
     );
   }

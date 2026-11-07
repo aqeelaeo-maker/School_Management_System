@@ -311,15 +311,15 @@ export const SchoolDashboard: React.FC<SchoolDashboardProps> = ({ onNavigateTab,
         </div>
 
         {/* Recent Bulletin Notices (Right Side Panel) */}
-        <div className="rounded-xl border border-zinc-300 bg-[#F7F7F7] p-5 lg:col-span-2 text-zinc-900 shadow-sm">
+        <div className="rounded-xl border border-zinc-800 bg-zinc-900/70 p-5 lg:col-span-2 shadow-sm">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-800 flex items-center gap-1.5">
-              <Bell className="h-4 w-4 text-blue-600" />
+            <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-300 flex items-center gap-1.5">
+              <Bell className="h-4 w-4 text-cyan-400" />
               School Notice Board & Circulars
             </h3>
             <button
               onClick={() => onNavigateTab('notices')}
-              className="text-xs text-blue-600 hover:text-blue-800 font-semibold flex items-center gap-1"
+              className="text-xs text-cyan-400 hover:text-cyan-300 font-semibold flex items-center gap-1"
             >
               <span>View All</span>
               <ArrowRight className="h-3.5 w-3.5" />
@@ -330,15 +330,15 @@ export const SchoolDashboard: React.FC<SchoolDashboardProps> = ({ onNavigateTab,
             {notices.map((n) => (
               <div
                 key={n.id}
-                className="rounded-lg border border-zinc-300 bg-white p-3.5 hover:border-zinc-400 transition shadow-xs"
+                className="rounded-lg border border-zinc-800 bg-zinc-950/60 p-3.5 hover:border-zinc-700 transition shadow-xs"
               >
                 <div className="flex items-start justify-between">
-                  <h4 className="text-xs font-bold text-zinc-900">{n.title}</h4>
-                  <span className="rounded bg-blue-50 border border-blue-200 px-1.5 py-0.5 text-[10px] font-semibold text-blue-700">
+                  <h4 className="text-xs font-bold text-zinc-100">{n.title}</h4>
+                  <span className="rounded bg-blue-500/20 border border-blue-500/30 px-1.5 py-0.5 text-[10px] font-semibold text-blue-300">
                     {n.category.toUpperCase()}
                   </span>
                 </div>
-                <p className="mt-1 text-xs text-zinc-600 line-clamp-2 leading-relaxed">{n.content}</p>
+                <p className="mt-1 text-xs text-zinc-400 line-clamp-2 leading-relaxed">{n.content}</p>
                 <div className="mt-2 flex items-center justify-between text-[10px] text-zinc-500">
                   <span>By: {n.publishedBy}</span>
                   <span>{n.publishedDate}</span>

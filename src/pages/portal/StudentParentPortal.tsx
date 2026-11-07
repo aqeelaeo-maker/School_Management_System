@@ -309,37 +309,37 @@ export const StudentParentPortal: React.FC = () => {
           {/* Right Col: Quick Fee Summary & Attendance */}
           <div className="space-y-6">
             {/* Fee Card */}
-            <div className="rounded-xl border border-zinc-300 bg-[#F7F7F7] p-5 space-y-3 text-zinc-900 shadow-sm">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-800 flex items-center gap-2">
-                <CreditCard className="h-4 w-4 text-emerald-600" />
+            <div className="rounded-xl border border-zinc-800 bg-zinc-900/70 p-5 space-y-3 shadow-sm">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-300 flex items-center gap-2">
+                <CreditCard className="h-4 w-4 text-emerald-400" />
                 Fee Payment Status
               </h3>
               {invoices.length > 0 && (
-                <div className="rounded-lg bg-white border border-zinc-200 p-3.5 space-y-2 shadow-xs">
+                <div className="rounded-lg bg-zinc-950/60 border border-zinc-800/80 p-3.5 space-y-2 shadow-xs">
                   <div className="flex justify-between items-center text-xs">
-                    <span className="text-zinc-800 font-semibold">{invoices[0].month} Voucher</span>
-                    <span className="rounded bg-emerald-100 text-emerald-800 border border-emerald-200 text-[10px] font-bold px-2 py-0.5 uppercase">
+                    <span className="text-zinc-200 font-semibold">{invoices[0].month} Voucher</span>
+                    <span className="rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-bold px-2 py-0.5 uppercase">
                       {invoices[0].status}
                     </span>
                   </div>
-                  <div className="text-xl font-bold text-zinc-900">${invoices[0].totalAmount}</div>
-                  <div className="text-[11px] text-zinc-500 font-mono">Due Date: {invoices[0].dueDate}</div>
+                  <div className="text-xl font-bold text-white">${invoices[0].totalAmount}</div>
+                  <div className="text-[11px] text-zinc-400 font-mono">Due Date: {invoices[0].dueDate}</div>
                 </div>
               )}
             </div>
 
             {/* Quick Actions */}
-            <div className="rounded-xl border border-zinc-300 bg-[#F7F7F7] p-5 space-y-3 text-zinc-900 shadow-sm">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-800">Parent Direct Actions</h3>
+            <div className="rounded-xl border border-zinc-800 bg-zinc-900/70 p-5 space-y-3 shadow-sm">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-300">Parent Direct Actions</h3>
               <button
                 onClick={() => alert('Leave application submitted to Class Teacher!')}
-                className="w-full rounded-lg border border-zinc-300 bg-white py-2.5 text-xs font-bold text-zinc-800 hover:bg-zinc-100 hover:border-zinc-400 transition shadow-xs"
+                className="w-full rounded-lg border border-white/20 bg-white/10 py-2.5 text-xs font-bold text-white hover:bg-white/20 hover:border-white/30 transition shadow-xs cursor-pointer"
               >
                 Submit Leave Application
               </button>
               <button
                 onClick={() => alert('Message sent to School Principal office.')}
-                className="w-full rounded-lg border border-zinc-300 bg-white py-2.5 text-xs font-bold text-zinc-800 hover:bg-zinc-100 hover:border-zinc-400 transition shadow-xs"
+                className="w-full rounded-lg border border-white/20 bg-white/10 py-2.5 text-xs font-bold text-white hover:bg-white/20 hover:border-white/30 transition shadow-xs cursor-pointer"
               >
                 Message Principal / Admin
               </button>

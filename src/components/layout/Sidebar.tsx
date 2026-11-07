@@ -146,11 +146,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <img
             src="/assets/aistudio/NEXORA_Technologies_Logo_290384d8.png"
             alt="NEXORA"
+            style={{ filter: 'brightness(0) invert(0.96) drop-shadow(0 1px 2px rgba(0,0,0,0.25))' }}
             className="h-7 w-auto max-w-[80px] object-contain shrink-0"
           />
           <div className="min-w-0">
-            <h1 className="text-xs font-bold tracking-tight text-white truncate">School Management</h1>
-            <p className="text-[10px] tracking-wider text-cyan-400 font-semibold truncate">
+            <h1 className="text-xs font-bold tracking-tight text-[#F4F6F8] truncate">School Management</h1>
+            <p className="text-[10px] tracking-wider text-[#00D2BC] font-semibold truncate">
               NEXORA Technologies
             </p>
           </div>
