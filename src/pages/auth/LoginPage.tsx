@@ -406,7 +406,7 @@ export const LoginPage: React.FC = () => {
           </form>
         </div>
 
-        {/* Footer: Powered By NEXORA Technologies & Logo */}
+        {/* Footer: Powered By Logo */}
         <div className="flex flex-col items-center justify-center space-y-3 pt-1 text-center">
           <div className="flex items-center gap-2 text-[11px] text-slate-500">
             <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
@@ -415,14 +415,14 @@ export const LoginPage: React.FC = () => {
             <span>Secure 256-bit Encryption</span>
           </div>
 
-          <div className="flex flex-col items-center justify-center gap-2 pt-1">
-            <p className="text-xs font-semibold text-slate-600 tracking-wide">
-              Powered By <span className="font-bold text-[#063BA1]">NEXORA Technologies.</span>
-            </p>
+          <div className="flex items-center justify-center gap-2.5 pt-1">
+            <span className="text-xs font-medium text-slate-500 tracking-wide">
+              Powered By
+            </span>
             <img
               src="/assets/aistudio/NEXORA_Technologies_Logo_290384d8.png"
               alt="NEXORA Technologies"
-              className="h-11 w-auto max-w-[240px] object-contain drop-shadow-xs transition hover:scale-105 duration-200"
+              className="h-8 sm:h-9 w-auto max-w-[200px] object-contain drop-shadow-xs transition-transform hover:scale-105 duration-200"
             />
           </div>
         </div>
