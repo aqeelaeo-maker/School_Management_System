@@ -1,6 +1,5 @@
 import React from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-import { ClastMark } from '../common/ClastLogo';
 import {
   LayoutDashboard,
   Building2,
@@ -144,11 +143,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
       >
         {/* Brand Banner */}
         <div className="flex h-16 items-center gap-2.5 border-b border-zinc-800/90 bg-black px-4">
-          <ClastMark className="h-8 w-8 shrink-0 shadow-sm" />
+          <img
+            src="/assets/aistudio/NEXORA_Technologies_Logo_290384d8.png"
+            alt="NEXORA"
+            className="h-7 w-auto max-w-[80px] object-contain shrink-0"
+          />
           <div className="min-w-0">
-            <h1 className="text-xs font-bold tracking-tight text-white truncate">School Management System</h1>
-            <p className="text-[10px] tracking-wider text-[#00D2BC] font-semibold truncate">
-              Clast Educational ERP
+            <h1 className="text-xs font-bold tracking-tight text-white truncate">School Management</h1>
+            <p className="text-[10px] tracking-wider text-cyan-400 font-semibold truncate">
+              NEXORA Technologies
             </p>
           </div>
         </div>
