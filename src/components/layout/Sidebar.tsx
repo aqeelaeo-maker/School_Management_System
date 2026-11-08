@@ -21,6 +21,7 @@ import {
   ShieldAlert,
   UserCheck,
   LogOut,
+  KeyRound,
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -50,11 +51,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
     switch (role) {
       case 'super_admin':
         return [
-          { id: 'super_dashboard', label: 'Global Overview', icon: LayoutDashboard },
-          { id: 'schools', label: 'All Schools', icon: Building2 },
-          { id: 'global_users', label: 'System Users', icon: Users },
-          { id: 'audit_logs', label: 'Audit Logs', icon: ShieldAlert },
-          { id: 'system_settings', label: 'System Settings', icon: Settings },
+          { id: 'credentials', label: 'credentials', icon: KeyRound },
+          { id: 'schools', label: 'Schools', icon: Building2 },
+          { id: 'settings', label: 'Settings', icon: Settings },
         ];
 
       case 'principal':
@@ -137,29 +136,39 @@ export const Sidebar: React.FC<SidebarProps> = ({
       )}
 
       <aside
-        className={`fixed top-0 bottom-0 left-0 z-50 flex w-64 flex-col border-r border-zinc-800/90 bg-black text-zinc-100 transition-transform duration-200 ease-in-out lg:static lg:translate-x-0 ${
+        className={`fixed top-0 bottom-0 left-0 z-50 flex w-64 flex-col border-r border-white/15 text-white transition-transform duration-200 ease-in-out lg:static lg:translate-x-0 ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
+        style={{
+          background: 'linear-gradient(180deg, #0A2E68 0%, #064E78 40%, #027A8F 75%, #00D2BC 100%)',
+        }}
       >
         {/* Brand Banner */}
-        <div className="flex h-16 items-center gap-2.5 border-b border-zinc-800/90 bg-black px-4">
-          <img
-            src="/assets/aistudio/NEXORA_Technologies_Logo_290384d8.png"
-            alt="NEXORA"
-            style={{ filter: 'brightness(0) invert(0.96) drop-shadow(0 1px 2px rgba(0,0,0,0.25))' }}
-            className="h-7 w-auto max-w-[80px] object-contain shrink-0"
-          />
-          <div className="min-w-0">
-            <h1 className="text-xs font-bold tracking-tight text-[#F4F6F8] truncate">School Management</h1>
-            <p className="text-[10px] tracking-wider text-[#00D2BC] font-semibold truncate">
-              NEXORA Technologies
-            </p>
+        <div className="flex h-16 items-center gap-2.5 border-b border-white/15 bg-black/15 px-3.5">
+          {/* Logo Image Box styled with theme blue-to-turquoise gradient */}
+          <div
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl p-1 shadow-md border border-white/30"
+            style={{
+              background: 'linear-gradient(135deg, #0A2E68 0%, #064E78 40%, #027A8F 75%, #00D2BC 100%)',
+            }}
+          >
+            <img
+              src="/assets/aistudio/NEXORA_Technologies_Logo_290384d8.png"
+              alt="Logo"
+              style={{ filter: 'brightness(0) invert(0.96) drop-shadow(0 1px 2px rgba(0,0,0,0.25))' }}
+              className="h-full w-full object-contain"
+            />
+          </div>
+          <div className="min-w-0 flex-1">
+            <h1 className="text-xs font-bold tracking-tight text-[#F4F6F8] leading-tight">
+              School Management System
+            </h1>
           </div>
         </div>
 
         {/* Navigation list */}
-        <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-4 custom-scrollbar bg-black">
-          <div className="px-2 pb-2 text-[10px] font-bold uppercase tracking-wider text-zinc-500">
+        <nav className="flex-1 space-y-1.5 overflow-y-auto px-3 py-4 custom-scrollbar">
+          <div className="px-2 pb-1 text-[10px] font-bold uppercase tracking-wider text-white/70">
             {role.replace('_', ' ')} Portal
           </div>
           {navItems.map((item) => {
@@ -172,22 +181,31 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   setActiveTab(item.id);
                   onClose();
                 }}
+                style={
+                  isActive
+                    ? {
+                        background:
+                          'linear-gradient(90deg, rgba(10, 46, 104, 0.75) 0%, rgba(2, 122, 143, 0.75) 60%, rgba(0, 210, 188, 0.75) 100%)',
+                        border: '1px solid rgba(255, 255, 255, 0.35)',
+                      }
+                    : undefined
+                }
                 className={`group flex w-full items-center justify-between rounded-xl px-3 py-2 text-xs font-medium transition cursor-pointer ${
                   isActive
-                    ? 'bg-gradient-to-r from-[#063BA1] via-[#029AB2] to-[#00D2BC] text-white font-semibold shadow-md border border-cyan-500/20'
-                    : 'text-zinc-400 hover:bg-zinc-900/90 hover:text-white'
+                    ? 'text-white font-bold shadow-md'
+                    : 'text-white/80 hover:bg-white/10 hover:text-white'
                 }`}
               >
                 <div className="flex items-center gap-3">
                   <Icon
                     className={`h-4 w-4 transition ${
-                      isActive ? 'text-white' : 'text-zinc-400 group-hover:text-zinc-200'
+                      isActive ? 'text-[#00D2BC]' : 'text-white/70 group-hover:text-white'
                     }`}
                   />
                   <span>{item.label}</span>
                 </div>
                 {item.badge && (
-                  <span className="rounded-md border border-zinc-700 bg-zinc-800 px-1.5 py-0.5 text-[10px] font-semibold text-zinc-200">
+                  <span className="rounded-md border border-white/30 bg-white/20 px-1.5 py-0.5 text-[10px] font-semibold text-white">
                     {item.badge}
                   </span>
                 )}
@@ -197,25 +215,29 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </nav>
 
         {/* Footer info & Logout */}
-        <div className="border-t border-zinc-800/90 bg-black p-3 space-y-2">
-          <div className="rounded-xl bg-zinc-950 p-2.5 border border-zinc-800/90 shadow-xs">
+        <div className="border-t border-white/15 bg-black/10 p-3 space-y-2">
+          <div className="rounded-xl bg-white/10 p-2.5 border border-white/15 shadow-xs">
             <div className="flex items-center justify-between">
-              <span className="text-[10px] font-medium text-zinc-400">Database Status</span>
-              <span className="flex items-center gap-1 text-[10px] font-semibold text-emerald-400">
+              <span className="text-[10px] font-medium text-white/70">Database Status</span>
+              <span className="flex items-center gap-1 text-[10px] font-semibold text-emerald-300">
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
                 Connected
               </span>
             </div>
-            <p className="mt-1 text-[10px] text-zinc-300 font-medium truncate">
+            <p className="mt-1 text-[10px] text-white font-medium truncate">
               {currentSchool ? currentSchool.name : 'Multi-Tenant Firestore'}
             </p>
           </div>
 
+          {/* Sign Out Button according to theme blue-to-turquoise gradient */}
           <button
             onClick={() => logout()}
-            className="flex w-full items-center justify-center gap-2 rounded-xl border border-zinc-800 bg-zinc-900 py-2 px-3 text-xs font-semibold text-zinc-200 hover:border-rose-900/60 hover:bg-rose-950/40 hover:text-rose-300 transition shadow-xs cursor-pointer"
+            style={{
+              background: 'linear-gradient(135deg, #0A2E68 0%, #064E78 40%, #027A8F 75%, #00D2BC 100%)',
+            }}
+            className="flex w-full items-center justify-center gap-2 rounded-xl border border-white/30 py-2 px-3 text-xs font-semibold text-white hover:opacity-90 transition shadow-sm cursor-pointer active:scale-[0.99]"
           >
-            <LogOut className="h-3.5 w-3.5" />
+            <LogOut className="h-3.5 w-3.5 text-[#00D2BC]" />
             <span>Sign Out / Switch</span>
           </button>
         </div>

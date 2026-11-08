@@ -6,30 +6,18 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 /* ==========================================================================
-   Ocean Blue-to-Turquoise Theme for Main Application Workspace
+   Milky White Theme for Main Application Workspace
    ========================================================================== */
-.ocean-gradient-theme,
 .milky-theme {
-  color: #F4F6F8;
+  background-color: #FAFAFA;
+  color: #1E293B;
 }
 
-/* Glassmorphic card surfaces */
-.ocean-gradient-theme .bg-zinc-950,
+/* Transform dark card backgrounds to clean crisp white on milky canvas */
 .milky-theme .bg-zinc-950 {
-  background-color: rgba(6, 28, 64, 0.65) !important;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-color: rgba(255, 255, 255, 0.16) !important;
+  background-color: #FAFAFA !important;
 }
 
-.ocean-gradient-theme .bg-zinc-900,
-.ocean-gradient-theme .bg-zinc-900\/90,
-.ocean-gradient-theme .bg-zinc-900\/80,
-.ocean-gradient-theme .bg-zinc-900\/70,
-.ocean-gradient-theme .bg-zinc-900\/60,
-.ocean-gradient-theme .bg-zinc-900\/50,
-.ocean-gradient-theme .bg-zinc-900\/40,
-.ocean-gradient-theme .bg-zinc-900\/30,
 .milky-theme .bg-zinc-900,
 .milky-theme .bg-zinc-900\/90,
 .milky-theme .bg-zinc-900\/80,
@@ -38,144 +26,118 @@ body {
 .milky-theme .bg-zinc-900\/50,
 .milky-theme .bg-zinc-900\/40,
 .milky-theme .bg-zinc-900\/30 {
-  background-color: rgba(255, 255, 255, 0.09) !important;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-color: rgba(255, 255, 255, 0.18) !important;
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.35) !important;
+  background-color: #FFFFFF !important;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.04) !important;
+  border-color: #E2E8F0 !important;
 }
 
-.ocean-gradient-theme .border-zinc-800,
-.ocean-gradient-theme .border-zinc-800\/90,
-.ocean-gradient-theme .border-zinc-800\/80,
-.ocean-gradient-theme .border-zinc-800\/60,
-.ocean-gradient-theme .border-zinc-700,
-.ocean-gradient-theme .border-zinc-700\/80,
 .milky-theme .border-zinc-800,
 .milky-theme .border-zinc-800\/90,
 .milky-theme .border-zinc-800\/80,
 .milky-theme .border-zinc-800\/60,
 .milky-theme .border-zinc-700,
 .milky-theme .border-zinc-700\/80 {
-  border-color: rgba(255, 255, 255, 0.16) !important;
+  border-color: #E2E8F0 !important;
 }
 
-/* Gradients on cards */
-.ocean-gradient-theme .bg-gradient-to-r.from-zinc-900,
-.ocean-gradient-theme .bg-gradient-to-br.from-zinc-900,
+/* Neutralize dark gradient cards to clean subtle milky gradients */
 .milky-theme .bg-gradient-to-r.from-zinc-900,
 .milky-theme .bg-gradient-to-br.from-zinc-900 {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.05) 100%) !important;
-  border-color: rgba(255, 255, 255, 0.20) !important;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 100%) !important;
+  border-color: #E2E8F0 !important;
 }
 
-/* Typography contrast in ash white & light silver */
-.ocean-gradient-theme .text-white,
+/* Typography contrast for milky white workspace */
 .milky-theme .text-white {
-  color: #F4F6F8 !important;
+  color: #0F172A !important;
 }
 
-.ocean-gradient-theme .text-zinc-100,
 .milky-theme .text-zinc-100 {
-  color: #F4F6F8 !important;
+  color: #1E293B !important;
 }
 
-.ocean-gradient-theme .text-zinc-200,
 .milky-theme .text-zinc-200 {
-  color: #E2E8F0 !important;
+  color: #334155 !important;
 }
 
-.ocean-gradient-theme .text-zinc-300,
 .milky-theme .text-zinc-300 {
-  color: #CBD5E1 !important;
+  color: #475569 !important;
 }
 
-.ocean-gradient-theme .text-zinc-400,
 .milky-theme .text-zinc-400 {
-  color: #94A3B8 !important;
-}
-
-.ocean-gradient-theme .text-zinc-500,
-.milky-theme .text-zinc-500 {
   color: #64748B !important;
 }
 
-/* Form inputs & selects in ocean gradient theme */
-.ocean-gradient-theme input:not([type="checkbox"]):not([type="radio"]),
-.ocean-gradient-theme select,
-.ocean-gradient-theme textarea,
+.milky-theme .text-zinc-500 {
+  color: #94A3B8 !important;
+}
+
+/* Form inputs & selects in milky theme */
 .milky-theme input:not([type="checkbox"]):not([type="radio"]),
 .milky-theme select,
 .milky-theme textarea {
-  background-color: rgba(255, 255, 255, 0.12) !important;
-  color: #FFFFFF !important;
-  border-color: rgba(255, 255, 255, 0.25) !important;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background-color: #FFFFFF !important;
+  color: #0F172A !important;
+  border-color: #CBD5E1 !important;
 }
 
-.ocean-gradient-theme input:focus,
-.ocean-gradient-theme select:focus,
-.ocean-gradient-theme textarea:focus,
 .milky-theme input:focus,
 .milky-theme select:focus,
 .milky-theme textarea:focus {
-  border-color: #00D2BC !important;
-  box-shadow: 0 0 0 3px rgba(0, 210, 188, 0.25) !important;
-  background-color: rgba(255, 255, 255, 0.18) !important;
+  border-color: #0284A6 !important;
+  box-shadow: 0 0 0 3px rgba(2, 132, 166, 0.15) !important;
 }
 
-.ocean-gradient-theme select option,
-.ocean-gradient-theme select optgroup,
 .milky-theme select option,
 .milky-theme select optgroup {
-  background-color: #0A2E68 !important;
-  color: #FFFFFF !important;
+  background-color: #FFFFFF !important;
+  color: #0F172A !important;
 }
 
-.ocean-gradient-theme input::placeholder,
-.ocean-gradient-theme textarea::placeholder,
 .milky-theme input::placeholder,
 .milky-theme textarea::placeholder {
-  color: #CBD5E1 !important;
+  color: #94A3B8 !important;
 }
 
-/* Table styling in ocean gradient theme */
-.ocean-gradient-theme table thead,
-.ocean-gradient-theme thead,
+/* Table styling in milky theme */
 .milky-theme table thead,
 .milky-theme thead {
-  background-color: rgba(6, 28, 64, 0.70) !important;
-  border-color: rgba(255, 255, 255, 0.15) !important;
+  background-color: #F8FAFC !important;
+  border-color: #E2E8F0 !important;
 }
 
-.ocean-gradient-theme thead th,
 .milky-theme thead th {
-  color: #E2E8F0 !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
+  color: #475569 !important;
+  border-bottom: 1px solid #E2E8F0 !important;
 }
 
-.ocean-gradient-theme tbody tr,
 .milky-theme tbody tr {
-  border-color: rgba(255, 255, 255, 0.10) !important;
+  border-color: #F1F5F9 !important;
 }
 
-.ocean-gradient-theme tbody tr:hover,
 .milky-theme tbody tr:hover {
-  background-color: rgba(255, 255, 255, 0.08) !important;
+  background-color: #F8FAFC !important;
+}
+
+/* All buttons & primary action controls according to theme blue-to-turquoise gradient */
+.milky-theme .bg-blue-600,
+.milky-theme .bg-blue-700,
+.milky-theme .bg-[#063BA1],
+.milky-theme .bg-[#0A2E68] {
+  background: linear-gradient(135deg, #0A2E68 0%, #064E78 40%, #027A8F 75%, #00D2BC 100%) !important;
+  color: #FFFFFF !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+  box-shadow: 0 2px 8px rgba(10, 46, 104, 0.2) !important;
+}
+
+.milky-theme .bg-blue-600:hover,
+.milky-theme .bg-blue-700:hover,
+.milky-theme .bg-[#063BA1]:hover,
+.milky-theme .bg-[#0A2E68]:hover {
+  opacity: 0.95 !important;
 }
 
 /* Preserve White text on primary CTA buttons */
-.ocean-gradient-theme .bg-blue-600,
-.ocean-gradient-theme .bg-blue-700,
-.ocean-gradient-theme .bg-indigo-600,
-.ocean-gradient-theme .bg-emerald-600,
-.ocean-gradient-theme .bg-rose-600,
-.ocean-gradient-theme .bg-purple-600,
-.ocean-gradient-theme .bg-amber-600,
-.ocean-gradient-theme .bg-[#063BA1],
 .milky-theme .bg-blue-600,
 .milky-theme .bg-blue-700,
 .milky-theme .bg-indigo-600,
@@ -187,14 +149,6 @@ body {
   color: #FFFFFF !important;
 }
 
-.ocean-gradient-theme .bg-blue-600 *,
-.ocean-gradient-theme .bg-blue-700 *,
-.ocean-gradient-theme .bg-indigo-600 *,
-.ocean-gradient-theme .bg-emerald-600 *,
-.ocean-gradient-theme .bg-rose-600 *,
-.ocean-gradient-theme .bg-purple-600 *,
-.ocean-gradient-theme .bg-amber-600 *,
-.ocean-gradient-theme .bg-[#063BA1] *,
 .milky-theme .bg-blue-600 *,
 .milky-theme .bg-blue-700 *,
 .milky-theme .bg-indigo-600 *,
@@ -207,77 +161,53 @@ body {
 }
 
 /* Ensure vibrant colored badges and status text remain readable */
-.ocean-gradient-theme .text-emerald-400,
-.ocean-gradient-theme .text-emerald-500,
-.ocean-gradient-theme .text-emerald-600,
 .milky-theme .text-emerald-400,
 .milky-theme .text-emerald-500,
 .milky-theme .text-emerald-600 {
-  color: #34D399 !important;
+  color: #059669 !important;
 }
 
-.ocean-gradient-theme .text-blue-400,
-.ocean-gradient-theme .text-blue-500,
-.ocean-gradient-theme .text-blue-600,
 .milky-theme .text-blue-400,
 .milky-theme .text-blue-500,
 .milky-theme .text-blue-600 {
-  color: #38BDF8 !important;
+  color: #0284A6 !important;
 }
 
-.ocean-gradient-theme .text-indigo-400,
-.ocean-gradient-theme .text-indigo-500,
-.ocean-gradient-theme .text-indigo-600,
 .milky-theme .text-indigo-400,
 .milky-theme .text-indigo-500,
 .milky-theme .text-indigo-600 {
-  color: #818CF8 !important;
+  color: #4F46E5 !important;
 }
 
-.ocean-gradient-theme .text-amber-400,
-.ocean-gradient-theme .text-amber-500,
-.ocean-gradient-theme .text-amber-600,
 .milky-theme .text-amber-400,
 .milky-theme .text-amber-500,
 .milky-theme .text-amber-600 {
-  color: #FBBF24 !important;
+  color: #D97706 !important;
 }
 
-.ocean-gradient-theme .text-rose-400,
-.ocean-gradient-theme .text-rose-500,
-.ocean-gradient-theme .text-rose-600,
 .milky-theme .text-rose-400,
 .milky-theme .text-rose-500,
 .milky-theme .text-rose-600 {
-  color: #FB7185 !important;
+  color: #E11D48 !important;
 }
 
-.ocean-gradient-theme .text-purple-400,
-.ocean-gradient-theme .text-purple-500,
-.ocean-gradient-theme .text-purple-600,
 .milky-theme .text-purple-400,
 .milky-theme .text-purple-500,
 .milky-theme .text-purple-600 {
-  color: #C084FC !important;
+  color: #7C3AED !important;
 }
 
-.ocean-gradient-theme .text-cyan-400,
-.ocean-gradient-theme .text-cyan-500,
-.ocean-gradient-theme .text-cyan-600,
 .milky-theme .text-cyan-400,
 .milky-theme .text-cyan-500,
 .milky-theme .text-cyan-600 {
-  color: #22D3EE !important;
+  color: #0891B2 !important;
 }
 
-/* Modals & Dialogs on Blue-to-Turquoise canvas */
-.ocean-gradient-theme .bg-zinc-900.border,
+/* Modals & Dialogs in milky theme */
 .milky-theme .bg-zinc-900.border {
-  background-color: rgba(8, 30, 68, 0.95) !important;
-  backdrop-filter: blur(24px) !important;
-  -webkit-backdrop-filter: blur(24px) !important;
-  border-color: rgba(255, 255, 255, 0.22) !important;
-  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.5) !important;
+  background-color: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1) !important;
 }
 
 /* Custom scrollbar */

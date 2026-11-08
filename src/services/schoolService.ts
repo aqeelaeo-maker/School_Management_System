@@ -138,3 +138,22 @@ export async function toggleSchoolStatus(
     details: `Changed school status to: ${status}`,
   });
 }
+
+export async function deleteSchool(
+  schoolId: string,
+  userId: string = 'system',
+  userName: string = 'Super Admin'
+): Promise<void> {
+  const docRef = doc(db, SCHOOLS_COLLECTION, schoolId);
+  await deleteDoc(docRef);
+
+  await logAuditEvent({
+    schoolId,
+    userId,
+    userName,
+    role: 'super_admin',
+    action: 'DELETE_SCHOOL',
+    module: 'Schools',
+    details: `Deleted school tenant: ${schoolId}`,
+  });
+}

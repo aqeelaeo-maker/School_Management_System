@@ -120,8 +120,14 @@ export const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
         {/* Modal Header */}
         <div className="flex items-center justify-between border-b border-zinc-800 px-6 py-4 bg-zinc-950/60">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 shadow-lg shadow-blue-600/20 ring-1 ring-white/20">
-              <KeyRound className="h-5 w-5 text-white" />
+            {/* Header Image Box styled with theme blue-to-turquoise gradient */}
+            <div
+              className="flex h-10 w-10 items-center justify-center rounded-xl shadow-lg border border-white/20"
+              style={{
+                background: 'linear-gradient(135deg, #0A2E68 0%, #064E78 40%, #027A8F 75%, #00D2BC 100%)',
+              }}
+            >
+              <KeyRound className="h-5 w-5 text-[#00D2BC]" />
             </div>
             <div>
               <h3 className="text-sm font-bold text-white">Change Password</h3>
@@ -306,11 +312,15 @@ export const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
             >
               Cancel
             </button>
+            {/* Submit button styled with theme blue-to-turquoise gradient */}
             <button
               type="submit"
               id="save-password-button"
               disabled={isSubmitting || !newPassword || !passwordsMatch}
-              className="flex items-center gap-2 rounded-xl bg-blue-600 hover:bg-blue-500 active:bg-blue-700 px-5 py-2.5 text-xs font-bold text-white shadow-lg shadow-blue-600/25 transition cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+              style={{
+                background: 'linear-gradient(135deg, #0A2E68 0%, #064E78 40%, #027A8F 75%, #00D2BC 100%)',
+              }}
+              className="flex items-center gap-2 rounded-xl border border-white/20 px-5 py-2.5 text-xs font-bold text-white shadow-lg hover:opacity-95 transition cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.99]"
             >
               {isSubmitting ? (
                 <>
@@ -319,7 +329,7 @@ export const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
                 </>
               ) : (
                 <>
-                  <KeyRound className="h-3.5 w-3.5" />
+                  <KeyRound className="h-3.5 w-3.5 text-[#00D2BC]" />
                   <span>Update Password</span>
                 </>
               )}

@@ -41,8 +41,8 @@ const ROLE_CHOICES: RoleChoice[] = [
     label: 'Admin',
     defaultUser: 'Admin',
     defaultPass: 'Admin',
-    placeholder: 'Enter username (e.g. Admin)',
-    hint: 'Credentials for Super Admin: Username Admin, Password Admin',
+    placeholder: 'Enter username (Super Admin: Admin • School: EMIS Code)',
+    hint: 'Default school credentials: Both username & password are the school EMIS Code',
   },
   {
     key: 'principal',
@@ -121,9 +121,11 @@ export const LoginPage: React.FC = () => {
       setUsername('Admin');
       setPassword('Admin');
     } else {
+      const sch = schoolsList.find((s) => s.id === val);
+      const emis = sch?.emisCode || (sch as any)?.code || 'EMIS-40192';
       if (selectedRole === 'admin') {
-        setUsername('beacon_admin');
-        setPassword('admin123');
+        setUsername(emis);
+        setPassword(emis);
       }
     }
   };
@@ -142,8 +144,10 @@ export const LoginPage: React.FC = () => {
         setUsername('Admin');
         setPassword('Admin');
       } else {
-        setUsername('beacon_admin');
-        setPassword('admin123');
+        const sch = schoolsList.find((s) => s.id === selectedSchool);
+        const emis = sch?.emisCode || (sch as any)?.code || 'EMIS-40192';
+        setUsername(emis);
+        setPassword(emis);
       }
     } else {
       // For Principal, Teacher, Student, Parents:
@@ -256,7 +260,13 @@ export const LoginPage: React.FC = () => {
       <div className="relative z-10 w-full max-w-[430px] space-y-3.5">
         {/* On top: Professional Logo & ONLY "School Management System" in Ash White */}
         <div className="flex flex-col items-center justify-center text-center space-y-2.5">
-          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/[0.12] text-[#F4F6F8] shadow-xl shadow-black/10 ring-2 ring-white/30 backdrop-blur-md">
+          {/* Logo image box styled with theme blue-to-turquoise gradient */}
+          <div
+            className="flex h-14 w-14 items-center justify-center rounded-2xl text-[#F4F6F8] shadow-xl ring-2 ring-white/30 border border-white/20 backdrop-blur-md"
+            style={{
+              background: 'linear-gradient(135deg, #0A2E68 0%, #064E78 40%, #027A8F 75%, #00D2BC 100%)',
+            }}
+          >
             <GraduationCap className="h-8 w-8 text-[#F4F6F8] drop-shadow-sm" />
           </div>
 
@@ -392,21 +402,24 @@ export const LoginPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Submit Button in Ash White */}
+            {/* Submit Button styled with blue-to-turquoise gradient */}
             <button
               type="submit"
               disabled={isSubmitting}
-              className="mt-2 flex w-full items-center justify-center gap-2 rounded-xl bg-[#F4F6F8] hover:bg-white py-2.5 px-4 text-xs font-bold text-[#0A2E68] shadow-lg shadow-black/15 transition-all focus:outline-none focus:ring-4 focus:ring-white/30 disabled:cursor-not-allowed disabled:opacity-60 cursor-pointer active:scale-[0.99]"
+              style={{
+                background: 'linear-gradient(135deg, #0A2E68 0%, #064E78 35%, #027A8F 70%, #00D2BC 100%)',
+              }}
+              className="mt-2 flex w-full items-center justify-center gap-2 rounded-xl border border-white/30 hover:opacity-95 py-2.5 px-4 text-xs font-bold text-[#F4F6F8] shadow-lg shadow-black/20 transition-all focus:outline-none focus:ring-4 focus:ring-[#00D2BC]/30 disabled:cursor-not-allowed disabled:opacity-60 cursor-pointer active:scale-[0.99]"
             >
               {isSubmitting ? (
                 <>
-                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-[#0A2E68] border-t-transparent" />
+                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
                   <span>Authenticating...</span>
                 </>
               ) : (
                 <>
                   <span>Sign In to School System</span>
-                  <ArrowRight className="h-4 w-4" />
+                  <ArrowRight className="h-4 w-4 text-[#00D2BC]" />
                 </>
               )}
             </button>
@@ -422,7 +435,13 @@ export const LoginPage: React.FC = () => {
             <span>Secure 256-bit Encryption</span>
           </div>
 
-          <div className="flex items-center justify-center gap-2 rounded-xl bg-white/[0.08] px-3 py-1 shadow-xs border border-white/20 backdrop-blur-xs">
+          {/* Logo image box styled with theme blue-to-turquoise gradient */}
+          <div
+            className="flex items-center justify-center gap-2 rounded-xl px-3.5 py-1.5 shadow-sm border border-white/30 backdrop-blur-xs"
+            style={{
+              background: 'linear-gradient(135deg, rgba(10, 46, 104, 0.7) 0%, rgba(2, 122, 143, 0.7) 50%, rgba(0, 210, 188, 0.7) 100%)',
+            }}
+          >
             <span className="text-[11px] font-semibold text-[#F4F6F8] tracking-wide">
               Powered By
             </span>

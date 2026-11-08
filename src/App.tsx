@@ -8,6 +8,7 @@ import { SchoolsManagement } from './pages/super-admin/SchoolsManagement';
 import { GlobalUsers } from './pages/super-admin/GlobalUsers';
 import { AuditLogsView } from './pages/super-admin/AuditLogsView';
 import { SystemSettings } from './pages/super-admin/SystemSettings';
+import { CredentialsManagement } from './pages/super-admin/CredentialsManagement';
 
 // School Admin & Principal Pages
 import { SchoolDashboard } from './pages/school-admin/SchoolDashboard';
@@ -44,7 +45,7 @@ const AppContent: React.FC = () => {
   const getDefaultTab = (userRole: string) => {
     switch (userRole) {
       case 'super_admin':
-        return 'super_dashboard';
+        return 'credentials';
       case 'teacher':
         return 'teacher_dashboard';
       case 'student':
@@ -59,7 +60,7 @@ const AppContent: React.FC = () => {
     }
   };
 
-  const [activeTab, setActiveTab] = useState<string>('super_dashboard');
+  const [activeTab, setActiveTab] = useState<string>('credentials');
   const [aiModalOpen, setAiModalOpen] = useState(false);
 
   // Sync tab when user profile role switches
@@ -147,16 +148,19 @@ const AppContent: React.FC = () => {
     // Super Admin tabs
     if (role === 'super_admin') {
       switch (activeTab) {
-        case 'super_dashboard':
-          return <SuperAdminDashboard onNavigateTab={setActiveTab} />;
+        case 'credentials':
+          return <CredentialsManagement onNavigateTab={setActiveTab} />;
         case 'schools':
           return <SchoolsManagement onEnterSchool={() => setActiveTab('dashboard')} />;
+        case 'settings':
+        case 'system_settings':
+          return <SystemSettings />;
         case 'global_users':
           return <GlobalUsers />;
         case 'audit_logs':
           return <AuditLogsView />;
-        case 'system_settings':
-          return <SystemSettings />;
+        case 'super_dashboard':
+          return <SuperAdminDashboard onNavigateTab={setActiveTab} />;
         case 'dashboard':
           return <SchoolDashboard onNavigateTab={setActiveTab} onOpenAI={() => setAiModalOpen(true)} />;
         case 'students':
@@ -187,10 +191,10 @@ const AppContent: React.FC = () => {
           return <NoticesModule />;
         case 'reports':
           return <ReportsModule />;
-        case 'settings':
+        case 'school_settings':
           return <SchoolSettingsPage />;
         default:
-          return <SuperAdminDashboard onNavigateTab={setActiveTab} />;
+          return <CredentialsManagement onNavigateTab={setActiveTab} />;
       }
     }
 
